@@ -12,8 +12,8 @@ Requis :
         page d'accueil
         page de liste des tests
         page de test
-        page de profil
         page de liste des abonnés
+        page de profil
         page de connection
 
     back-end :
