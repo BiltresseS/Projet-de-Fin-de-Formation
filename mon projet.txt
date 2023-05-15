@@ -1,0 +1,111 @@
+Intitulé : 
+    Site communautaire de test de jeux vidéos (ou un autre truc, à décider)
+
+
+technologies :
+    front-end : Angular
+    back-end : NestJs
+
+
+Requis :
+    front-end : 
+        page d'accueil
+        page de liste des tests
+        page de test
+        page de profil
+        page de liste des abonnés
+        page de connection
+
+    back-end :
+        table "tests"
+        table "consoles" lié "tests"
+        table many-to-many "consoles" et "tests"
+        table "genres" lié "tests"
+        table many-to-many "genres" et "tests"
+        table "images" lié "tests"
+        table many-to-one "images" et "tests"
+        table "abonnés"
+        table one-to-many "abonnés" et "tests" pour l'auteur du test
+        table "rôles" lié "abonnés"
+        table many-to-one "abonnés" et "tests" pour les upvotes du test
+
+Elements :
+    Header : 
+        menu :
+            Accueil (image)
+            Liste des tests
+            Profil perso (visible uniquement par l'utilisateur inscrit)
+            Liste des abonnés (visible uniquement si connecté)
+            Connexion
+
+        menu shortcut :
+            liste des consoles (mène vers la liste des tests filtré par la console sélectionnée)
+
+    Footer : 
+        plan du site
+        mentions légales
+        copyright
+
+    Page d'accueil :
+        5 ou 10 derniers résumés de tests ajoutés au site
+
+    Page de liste des tests :
+        filtre par console
+        filtre pat genres
+        filtre par testeur
+        filtre par note
+        affichage : résumé+image - titre+image - titre seul
+        nombre d'affichages (change selon l'affichage)
+        recherche
+
+    Page de test :
+        image jaquette
+        information jeu :
+            développeur
+            distributeur
+            consoles
+            date sortie JAP
+            date sortie US
+            date sortie PAL
+        résumé
+        test
+        testeur
+        note
+        votes de l'article
+        gallerie photos
+
+    Page de profil :
+        avatar
+        données : 
+            pseudo
+            rang
+            bouton "modifier le rang" (visible uniquement par les admins communautaires et le maester)
+            age
+            bio
+            date d'inscription
+            bouton "modifier profil" (visible uniquement par le pocesseur du profil)
+        liste des tests (si testeur)
+
+    Page de liste des abonnés :
+        liste des abonnés (mène vers la page de profil) :
+            avatar
+            pseudo
+            rang
+            date d'inscription
+            bouton "visiter le profil"
+            bouton "éditer le profil" (visible uniquement par les admins communautaires et le maester)
+
+    Page de connextion :
+        formulaire :
+            pseudo
+            mot de passe
+
+        bouton "conection"
+        bouton "inscription"
+    
+    Page d'inscription :
+        formulaire :
+            pseudo
+            mot de passe
+        
+        bouton "inscription"
