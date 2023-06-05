@@ -11,7 +11,7 @@ import { TestComponent } from './pages/test/test.component';
 import { ListeAbonnesComponent } from './pages/liste-abonnes/liste-abonnes.component';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
-import { QuickLinksComponent } from './pages/shared/nav/quick-links/quick-links.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,12 +23,12 @@ import { QuickLinksComponent } from './pages/shared/nav/quick-links/quick-links.
     TestComponent,
     ListeAbonnesComponent,
     ProfilComponent,
-    ConnexionComponent,
-    QuickLinksComponent
+    ConnexionComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

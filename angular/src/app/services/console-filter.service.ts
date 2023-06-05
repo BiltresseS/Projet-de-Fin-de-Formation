@@ -12,7 +12,7 @@ export class ConsoleFilterService {
 
   constructor(private _client : HttpClient) {}
 
-  getFilters(url : string): Observable<ConsoleInterface[]> {
+  getConsoles(url : string): Observable<ConsoleInterface[]> {
     return this._client.get<ConsoleInterface[]>(url);
   }
 }

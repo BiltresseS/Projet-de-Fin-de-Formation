@@ -8,7 +8,7 @@ import { ConsoleFilterService } from "src/app/services/console-filter.service";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   consoles! : ConsoleInterface[]
 
@@ -23,15 +23,10 @@ export class HeaderComponent implements OnInit {
   }
 
   load(url : string) {
-    this._service.getFilters(url).subscribe({
+    this._service.getConsoles(url).subscribe({
       next : (data : ConsoleInterface[]) => {
-        this.consoles = data
+        this.consoles = data.reverse()
       }
     })
-  }
-
-  selectedConsole! : number
-  selectConsole(url : number) {
-    this._router.navigate(['console', url])
   }
 }

@@ -14,5 +14,9 @@
             </li>
         </ul>
     </nav>
-    <!-- <app-quick-links></app-quick-links> -->
+    <div *ngIf="consoles" class="quick">
+        <ul>
+            <li *ngFor="let c of consoles">{{c.name}}</li>
+        </ul>
+    </div>
 </header>
