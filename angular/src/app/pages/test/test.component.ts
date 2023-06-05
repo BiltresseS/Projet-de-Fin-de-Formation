@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { TestInterface } from "src/app/interfaces/test-interface";
 
 @Component({
   selector: 'app-test',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class TestComponent {
 
+  test! : TestInterface
+
+  constructor(private _ar : ActivatedRoute) {}
+
+  ngOnInit() {
+    this.test = this._ar.snapshot.data['test']
+  }
 }

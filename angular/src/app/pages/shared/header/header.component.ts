@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { ConsoleInterface } from "src/app/interfaces/consoles";
+import { ConsoleInterface } from "src/app/interfaces/consoles-interface";
 import { ConsoleFilterService } from "src/app/services/console-filter.service";
 
 @Component({

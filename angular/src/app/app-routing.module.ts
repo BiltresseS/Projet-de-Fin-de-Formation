@@ -6,12 +6,13 @@ import { TestComponent } from './pages/test/test.component';
 import { ListeAbonnesComponent } from './pages/liste-abonnes/liste-abonnes.component';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
+import { TestResolver } from './services/test.resolver';
 
 const routes: Routes = [
   {path : '', redirectTo : 'accueil', pathMatch : 'full'}
   , {path : 'accueil', component : AccueilComponent}
   , {path : 'liste-tests', component : ListeTestsComponent}
-  , {path : 'test', component : TestComponent}
+  , {path : 'test/:url', resolve : {test : TestResolver}, component : TestComponent}
   , {path : 'liste-abonnes', component : ListeAbonnesComponent}
   , {path : 'profil', component : ProfilComponent}
   , {path : 'connexion', component : ConnexionComponent}
