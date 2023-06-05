@@ -11,6 +11,7 @@ import { TestComponent } from './pages/test/test.component';
 import { ListeAbonnesComponent } from './pages/liste-abonnes/liste-abonnes.component';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
+import { QuickLinksComponent } from './pages/shared/nav/quick-links/quick-links.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ConnexionComponent } from './pages/connexion/connexion.component';
     TestComponent,
     ListeAbonnesComponent,
     ProfilComponent,
-    ConnexionComponent
+    ConnexionComponent,
+    QuickLinksComponent
   ],
   imports: [
     BrowserModule,

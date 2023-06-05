@@ -73,6 +73,8 @@ Elements :
         note
         votes de l'article
         gallerie photos
+        bouton "modifier test" (visible uniquement par les admin communautaires, le maester et l'auteur du test)
+        bouton "supprimer test" (visible uniquement par les admin communautaires, le maester et l'auteur du test)
 
     Page de profil :
         avatar
