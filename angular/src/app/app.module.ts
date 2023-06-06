@@ -12,6 +12,7 @@ import { ListeAbonnesComponent } from './pages/liste-abonnes/liste-abonnes.compo
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AbonnesComponent } from './liste-abonnes/abonnes/abonnes/abonnes.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     TestComponent,
     ListeAbonnesComponent,
     ProfilComponent,
-    ConnexionComponent
+    ConnexionComponent,
+    AbonnesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { ConsoleInterface } from "./consoles-interface"
 
 export interface TestInterface {
+    id : number
     title : string
     cover : string
     consoles : ConsoleInterface[]

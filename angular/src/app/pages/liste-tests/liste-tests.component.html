@@ -1,29 +1,27 @@
 <div *ngIf="tests">
     <ul>
         <li *ngFor="let t of tests">
-            <a routerLink="../test/{{t.id}}" >
-                <div>
-                    <h1>{{t.title}}</h1>
-                    <img [src]="t.cover">
-                    <ul>
-                        <li *ngFor="let c of t.consoles">
-                            {{c}}
-                        </li>
-                    </ul>
-                    <ul>
-                        <li *ngFor="let g of t.genres">
-                            {{g}}
-                        </li>
-                    </ul>
-                    {{t.resume}}
-                    {{t.note}}
-                    {{t.author}}
-                    <ul>
-                        <li *ngFor="let v of t.upVotes">
-                            {{v}}
-                        </li>
-                    </ul>
-                </div>
+            <a [routerLink]="['../test', t.id]">
+                <h1>{{t.title}}</h1>
+                <img [src]="t.cover">
+                <ul>
+                    <li *ngFor="let c of t.consoles">
+                        {{c}}
+                    </li>
+                </ul>
+                <ul>
+                    <li *ngFor="let g of t.genres">
+                        {{g}}
+                    </li>
+                </ul>
+                {{t.resume}}
+                {{t.note}}
+                {{t.author}}
+                <ul>
+                    <li *ngFor="let v of t.upVotes">
+                        {{v}}
+                    </li>
+                </ul>
             </a>
         </li>
     </ul>

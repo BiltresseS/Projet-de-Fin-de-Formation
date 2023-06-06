@@ -1,0 +1,55 @@
+<h1>{{test.title}}</h1>
+<img [src]="test.cover">
+<div>
+    <p>
+        consoles : 
+    </p><ul>
+            <li *ngFor="let c of test.consoles">
+                {{c}}
+            </li>
+        </ul>
+    <p>
+        genres : 
+    </p><ul>
+            <li *ngFor="let g of test.genres">
+                {{g}}
+            </li>
+        </ul>
+    <p>
+        Développeur : {{test.developpeur}}
+    </p><p>
+        Distributeur : {{test.distributeur}}
+    </p><p>
+        Dates de sorties <ul>
+            <li>
+                Jap : {{test.dateSortieJAP}}
+            </li><li>
+                Us : {{test.dateSortieUS}}
+            </li><li>
+                Pal : {{test.dateSortiePAL}}
+            </li>
+        </ul>
+    
+</div>
+<p>
+    {{test.resume}}
+</p><p>
+    {{test.test}}
+</p><p>
+    Note : {{test.note}}/20
+</p><p>
+    auteur : {{test.author}}
+</p><p>
+    likes : 
+</p><ul>
+    <li *ngFor="let v of test.upVotes">
+        {{v}}
+    </li>
+</ul><ul>
+    <li *ngFor="let g of test.gallery">
+        <img [src]="g.url">
+        <p>
+            {{g.commentaire}}
+        </p>
+    </li>
+</ul>
