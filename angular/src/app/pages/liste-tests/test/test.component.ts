@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ConsoleInterface } from "src/app/interfaces/consoles-interface";
-import { GenreInterface, TestInterface, upVotesInterface } from "src/app/interfaces/test-interface";
+import { GenreInterface, TestInterface, upVotesInterface } from "src/app/interfaces/tests-interface";
 import { TestService } from "src/app/services/test.service";
 
 @Component({
@@ -39,5 +39,4 @@ export class TestComponent implements OnInit {
       });
     });
   }
-  
 }

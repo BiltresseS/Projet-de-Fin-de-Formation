@@ -22,6 +22,19 @@ export class AffichageUserDTO {
     rank : string
 }
 
+export class AffichageNewUserDTO {
+    constructor() {}
+
+    @Expose()
+    id : number
+
+    @Expose()
+    login : string
+
+    @Expose()
+    mail : string
+}
+
 export class AffichageUserSmollDTO {
     constructor() {}
 

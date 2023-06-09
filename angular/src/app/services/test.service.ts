@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { TestInterface, TestPreviewInterface } from '../interfaces/test-interface';
+import { TestInterface, TestPreviewInterface } from '../interfaces/tests-interface';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

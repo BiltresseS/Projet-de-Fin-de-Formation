@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
-import { AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
+import { AffichageNewUserDTO, AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
 import { NewUser } from "src/shared/dto/_users/newUser.dto"
 import { RankId } from "src/shared/dto/_users/rankId.dto"
 import { User } from "src/shared/dto/_users/user.dto"
@@ -9,12 +9,18 @@ import { UserRank } from "src/shared/dto/_users/userRank.dto"
 import { RanksEntity } from "src/shared/entities/rank.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
 import { Repository } from "typeorm"
+import { JwtService } from "@nestjs/jwt"
+import { ConfigService } from "@nestjs/config"
+import * as argon2 from 'argon2'
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(UsersEntity) private usersRepo : Repository<UsersEntity>
         , @InjectRepository(RanksEntity) private rankRepo : Repository<RanksEntity>
+        , private readonly jwtService: JwtService
+        , private readonly configService: ConfigService
     ) {}
 
     async getAll() : Promise<AffichageUserSmollDTO[]>
@@ -26,7 +32,8 @@ export class UserService {
         }).catch(() => {throw new HttpException("Erreur inconnue (mais plutôt grave) dans la base de données", HttpStatus.NOT_FOUND)})
 
         let formattedUsers: AffichageUserSmollDTO[] = allUsers.map((user) => ({
-            avatar: user.avatar
+            id : user.id
+            , avatar: user.avatar
             , login : user.login
             , rank: user.rank.rank
         }));
@@ -52,26 +59,57 @@ export class UserService {
             , rank: oneUser.rank.rank
         };
         
-          return formattedUsers;
+        return formattedUsers;
     }
 
-    async create(newUser : NewUser) : Promise<AffichageUserDTO>
+    async findByEmail(email : string) : Promise<UsersEntity>
     {
-        let userEntityCreated = this.usersRepo.create({...newUser})
-        userEntityCreated.rank = await this.rankRepo.findOne({where : {id : 4}})
-        let resultSave = await this.usersRepo.save(userEntityCreated)
-        .catch(_ => {throw new HttpException("Erreur inconnue (mais plutôt grave) lors de l'enregistrement de l'utilisateur", HttpStatus.FORBIDDEN)})
+        let oneUser = await this.usersRepo.findOne({
+            where : { mail : email },
+            relations : {
+                rank : true
+              }
+        }).catch(() => {throw new HttpException("Erreur lors de l'encodage de l'Id de l'utilisateur", HttpStatus.NOT_FOUND)})
+        
+        return oneUser;
+    }
 
-        let formattedUsers: AffichageUserDTO = {
-            id : resultSave.id
-            , avatar: resultSave.avatar
-            , login : resultSave.login
-            , mail : resultSave.mail
-            , bio : resultSave.bio
-            , rank: resultSave.rank.rank
+    async comparePassword(password: string, hashedPassword: string): Promise<boolean>
+    {
+        return await argon2.verify(hashedPassword, password)
+        .catch (() => {throw new HttpException("Erreur lors de la comparaison des mots de passe", HttpStatus.BAD_REQUEST)})
+    }
+
+    async create(newUser : NewUser) : Promise<AffichageNewUserDTO>
+    {
+        const options = {
+            type: argon2.argon2id,
+            memoryCost: 2 ** 16, // Paramètres de coût de mémoire
+            hashLength: 256, // Longueur du hash en octets
         };
         
-          return formattedUsers;
+        const saltRounds = 10;
+
+        const hashedPassword = await argon2.hash(newUser.mdp, options);
+        
+        let userEntityCreated = this.usersRepo.create({
+            ...newUser,
+            mdp: hashedPassword, // Stocke le hash du mot de passe dans l'entité utilisateur
+        })
+
+        userEntityCreated.rank = await this.rankRepo.findOne({where : {id : 4}})
+
+        let resultSave = await this.usersRepo
+        .save(userEntityCreated)
+        .catch(_ => {throw new HttpException("Erreur inconnue (mais plutôt grave) lors de l'enregistrement de l'utilisateur", HttpStatus.FORBIDDEN)})
+
+        let formattedUsers: AffichageNewUserDTO = {
+            id : resultSave.id
+            , login : resultSave.login
+            , mail : resultSave.mail
+        };
+        
+        return formattedUsers;
     }
 
     async update(userId : UserId, updateToUser : User) : Promise<AffichageUserDTO>
@@ -94,8 +132,8 @@ export class UserService {
             , avatar: updatedUser.avatar
             , login : updatedUser.login
             , mail : updatedUser.mail
-            , bio : updatedUser.bio,
-            rank : userExist.rank.rank
+            , bio : updatedUser.bio
+            , rank : userExist.rank.rank
         };
         
           return formattedUsers;

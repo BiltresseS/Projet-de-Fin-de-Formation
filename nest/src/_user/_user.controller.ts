@@ -3,7 +3,7 @@ import { UserService } from "./_user.service"
 import { User } from "src/shared/dto/_users/user.dto"
 import { UserId } from "src/shared/dto/_users/userId.dto"
 import { NewUser } from "src/shared/dto/_users/newUser.dto"
-import { AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
+import { AffichageNewUserDTO, AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
 import { RankId } from "src/shared/dto/_users/rankId.dto"
 import { UserRank } from "src/shared/dto/_users/userRank.dto"
 
@@ -30,7 +30,7 @@ export class UserController {
     @Post()
     createUser(
         @Body(ValidationPipe) newUser : NewUser
-    ) : Promise<AffichageUserDTO>
+    ) : Promise<AffichageNewUserDTO>
     {
         return this.userService.create(newUser)
     }

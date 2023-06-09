@@ -1,14 +1,7 @@
 import { IsDefined, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator"
-import { UserRank } from "./userRank.dto"
-import { Test } from "../_tests/test.dto"
 
 export class NewUser {
     id : number
-
-    @IsDefined()
-    @IsString()
-    @MaxLength(128)
-    avatar : string
 
     @IsDefined()
     @IsString()
@@ -30,12 +23,4 @@ export class NewUser {
         minNumbers : 1
     })
     mdp : string
-
-    @IsDefined()
-    @IsString()
-    @MinLength(10)
-    @MaxLength(1024)
-    bio : string
-
-    rank : UserRank
 }

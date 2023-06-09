@@ -17,7 +17,7 @@ export class UsersEntity extends LifetimeEntity{
     @Column({length : 50, nullable : false, unique : true})
     mail : string
 
-    @Column({length : 50, nullable : false})
+    @Column({length : 1400, nullable : false})
     mdp : string
 
     @Column({length : 1024, default : "Aucune bio"})

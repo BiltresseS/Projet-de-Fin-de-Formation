@@ -7,30 +7,33 @@ import { AccueilComponent } from './pages/accueil/accueil.component';
 import { HeaderComponent } from './pages/shared/header/header.component';
 import { FooterComponent } from './pages/shared/footer/footer.component';
 import { ListeTestsComponent } from './pages/liste-tests/liste-tests.component';
-import { TestComponent } from './pages/test/test.component';
 import { ListeAbonnesComponent } from './pages/liste-abonnes/liste-abonnes.component';
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AbonnesComponent } from './liste-abonnes/abonnes/abonnes/abonnes.component';
+import { TestComponent } from './pages/liste-tests/test/test.component';
+import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
+import { FormsModule } from '@angular/forms';
+import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AccueilComponent,
-    HeaderComponent,
-    FooterComponent,
-    ListeTestsComponent,
-    TestComponent,
-    ListeAbonnesComponent,
-    ProfilComponent,
-    ConnexionComponent,
-    AbonnesComponent
+    AppComponent
+    , AccueilComponent
+    , HeaderComponent
+    , FooterComponent
+    , ListeTestsComponent
+    , TestComponent
+    , ListeAbonnesComponent
+    , ProfilComponent
+    , ConnexionComponent
+    , AbonnesComponent, EnregistrementComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
+    BrowserModule
+    , AppRoutingModule
+    , HttpClientModule
+    , FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

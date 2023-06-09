@@ -1,7 +1,6 @@
 import { Component } from "@angular/core"
-import { Router } from "@angular/router"
 import { ConsoleInterface } from "src/app/interfaces/consoles-interface"
-import { GenreInterface, TestPreviewInterface, upVotesInterface } from "src/app/interfaces/test-interface"
+import { GenreInterface, TestPreviewInterface, upVotesInterface } from "src/app/interfaces/tests-interface"
 import { TestService } from "src/app/services/test.service"
 
 @Component({
@@ -17,8 +16,7 @@ export class ListeTestsComponent {
   upVotes! : upVotesInterface[]
 
   constructor(
-    private _service : TestService,
-    private _router : Router
+    private _service : TestService
   ) {}
 
   ngOnInit() {
@@ -30,7 +28,6 @@ export class ListeTestsComponent {
     this._service.getPreviewTest(url).subscribe({
       next : (data : TestPreviewInterface[]) => {
         this.tests = data.reverse()
-        console.log(this.tests);
       }
     })
   }

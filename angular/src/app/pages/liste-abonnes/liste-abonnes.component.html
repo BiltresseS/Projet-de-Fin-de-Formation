@@ -1,1 +1,11 @@
-<p>liste-abonnes works!</p>
+<ul>
+    <li *ngFor="let a of abonnes">
+        <a [routerLink]="['../abonnes', a.id]">
+            <h1>{{a.login}}</h1>
+            <img [src]="a.avatar">
+            <p>
+                {{a.rank}}
+            </p>
+        </a>
+    </li>
+</ul>
