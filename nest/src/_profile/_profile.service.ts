@@ -1,21 +1,26 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { AffichageNewUserDTO, AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
 import { NewUser } from "src/shared/dto/_users/newUser.dto"
 import { RankId } from "src/shared/dto/_users/rankId.dto"
+import { User } from "src/shared/dto/_users/user.dto"
 import { UserId } from "src/shared/dto/_users/userId.dto"
 import { UserRank } from "src/shared/dto/_users/userRank.dto"
 import { RanksEntity } from "src/shared/entities/rank.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
 import { Repository } from "typeorm"
+import { JwtService } from "@nestjs/jwt"
+import { ConfigService } from "@nestjs/config"
 import * as argon2 from 'argon2'
-import { UserModified } from "src/shared/dto/_users/userModified.dto"
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(UsersEntity) private usersRepo : Repository<UsersEntity>
         , @InjectRepository(RanksEntity) private rankRepo : Repository<RanksEntity>
+        , private readonly jwtService: JwtService
+        , private readonly configService: ConfigService
     ) {}
 
     async getAll() : Promise<AffichageUserSmollDTO[]>
@@ -107,7 +112,7 @@ export class UserService {
         return formattedUsers;
     }
 
-    async update(userId : UserId, updateToUser : UserModified) : Promise<AffichageUserDTO>
+    async update(userId : UserId, updateToUser : User) : Promise<AffichageUserDTO>
     {
         let userExist = await this.usersRepo.findOneOrFail({
             where : {id : userId},
@@ -119,24 +124,6 @@ export class UserService {
         userExist.login = updateToUser.login
         userExist.mail = updateToUser.mail
         userExist.bio = updateToUser.bio
-
-        // Vérifie si un nouveau mot de passe a été fourni
-        if (updateToUser.nmdp) {
-            // Vérifie que le mot de passe existant correspond
-            const passwordMatch = await argon2.verify(userExist.mdp, updateToUser.mdp);
-            if (!passwordMatch) {
-            throw new HttpException("Le mot de passe existant est incorrect", HttpStatus.BAD_REQUEST);
-            }
-    
-            const options = {
-            type: argon2.argon2id,
-            memoryCost: 2 ** 16, // Paramètres de coût de mémoire
-            hashLength: 256, // Longueur du hash en octets
-            };
-    
-            const hashedPassword = await argon2.hash(updateToUser.nmdp, options);
-            userExist.mdp = hashedPassword;
-        }
 
         let updatedUser = await this.usersRepo.save(userExist).catch(e => { console.log(e); throw new HttpException("Erreur lors du sauvegardage de l'utilisateur sur SQL", HttpStatus.FORBIDDEN)})
 

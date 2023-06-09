@@ -32,7 +32,7 @@ export class ConnexionComponent {
         // Stockez le jeton d'authentification localement (dans le localStorage)
         localStorage.setItem('token', token);
 
-        this.router.navigate(['/accueil']);
+        this.router.navigate(['/profil']);
       },
       error => {
         // Gérer les erreurs de connexion

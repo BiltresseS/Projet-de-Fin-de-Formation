@@ -1,0 +1,28 @@
+<form (ngSubmit)="submitForm()" #profileForm="ngForm">
+    <div>
+      <label for="avatar">Avatar</label>
+      <input type="text" id="avatar" name="avatar" [(ngModel)]="userProfile.avatar" required>
+    </div>
+    <div>
+      <label for="login">Login</label>
+      <input type="text" id="login" name="login" [(ngModel)]="userProfile.login" required>
+    </div>
+    <div>
+      <label for="mail">Mail</label>
+      <input type="email" id="mail" name="mail" [(ngModel)]="userProfile.mail" required>
+    </div>
+    <div>
+      <label for="bio">Bio</label>
+      <textarea id="bio" name="bio" [(ngModel)]="userProfile.bio" maxlength="{{ bioMaxLength }}" required></textarea>
+      <div class="character-count">{{ userProfile.bio.length }}/{{ bioMaxLength }} caractères</div>
+    </div>
+    <div>
+      <label for="oldPassword">Ancien mot de passe</label>
+      <input type="password" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" required>
+    </div>
+    <div>
+      <label for="newPassword">Nouveau mot de passe (optionnel)</label>
+      <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword">
+    </div>
+    <button type="submit">Modifier</button>
+  </form>

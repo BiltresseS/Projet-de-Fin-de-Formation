@@ -15,6 +15,7 @@ import { TestComponent } from './pages/liste-tests/test/test.component';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
 import { FormsModule } from '@angular/forms';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
+import { ProfileEditComponent } from './pages/profil-edit/profil-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import { EnregistrementComponent } from './pages/connexion/enregistrement/enregi
     , ListeAbonnesComponent
     , ProfilComponent
     , ConnexionComponent
-    , AbonnesComponent, EnregistrementComponent
+    , AbonnesComponent
+    , EnregistrementComponent
+    , ProfileEditComponent
   ],
   imports: [
     BrowserModule

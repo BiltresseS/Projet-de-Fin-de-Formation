@@ -8,6 +8,7 @@ import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { TestComponent } from './pages/liste-tests/test/test.component';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
+import { ProfileEditComponent } from './pages/profil-edit/profil-edit.component';
 
 const routes: Routes = [
   {path : '', redirectTo : 'accueil', pathMatch : 'full'}
@@ -17,6 +18,7 @@ const routes: Routes = [
   , {path : 'liste-abonnes', component : ListeAbonnesComponent}
   , {path : 'abonnes/:id', component : AbonnesComponent}
   , {path : 'profil', component : ProfilComponent}
+  , { path: 'profile/edit', component: ProfileEditComponent }
   , {path : 'connexion', component : ConnexionComponent}
   , { path: 'enregistrement', component: EnregistrementComponent },
 ];
