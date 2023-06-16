@@ -28,7 +28,6 @@ export class AccueilComponent {
     this._service.getPreviewTest(url).subscribe({
       next : (data : TestPreviewInterface[]) => {
         this.tests = data.reverse()
-        console.log(this.tests);
       }
     })
   }

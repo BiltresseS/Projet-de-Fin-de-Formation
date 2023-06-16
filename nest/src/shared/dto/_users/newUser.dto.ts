@@ -1,8 +1,6 @@
 import { IsDefined, IsString, IsStrongPassword, MaxLength, MinLength } from "class-validator"
 
-export class NewUser {
-    id : number
-
+export class NewUserDTO {
     @IsDefined()
     @IsString()
     @MinLength(2)

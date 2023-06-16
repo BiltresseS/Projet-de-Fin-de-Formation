@@ -5,7 +5,7 @@ import { RegisterDTO } from "src/shared/dto/_auth/register.dto";
 
 @Controller('api/login')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService) { }
 
     @Post()
     async login(
@@ -13,7 +13,7 @@ export class AuthController {
     ) {
         // Appelez le service d'authentification pour gérer la demande de connexion
         const result = await this.authService.login(loginDto.email, loginDto.password);
-  
+
         return { token: result.token };
     }
 
@@ -21,10 +21,10 @@ export class AuthController {
     async register(
         @Body() registerDto: RegisterDTO
     ) {
-        const { login, email, password } = registerDto;
-    
-        const result = await this.authService.register(login, email, password);
-    
+        const { login, mail, mdp } = registerDto;
+
+        const result = await this.authService.register(login, mail, mdp);
+
         return result;
     }
 }

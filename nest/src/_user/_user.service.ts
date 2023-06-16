@@ -1,15 +1,15 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
 import { InjectRepository } from "@nestjs/typeorm"
 import { AffichageNewUserDTO, AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
-import { NewUser } from "src/shared/dto/_users/newUser.dto"
 import { RankId } from "src/shared/dto/_users/rankId.dto"
 import { UserId } from "src/shared/dto/_users/userId.dto"
 import { UserRank } from "src/shared/dto/_users/userRank.dto"
 import { RanksEntity } from "src/shared/entities/rank.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
 import { Repository } from "typeorm"
-import * as argon2 from 'argon2'
 import { UserModified } from "src/shared/dto/_users/userModified.dto"
+import * as argon2 from 'argon2'
+import { NewUserDTO } from "src/shared/dto/_users/newUser.dto"
 
 @Injectable()
 export class UserService {
@@ -28,7 +28,7 @@ export class UserService {
 
         let formattedUsers: AffichageUserSmollDTO[] = allUsers.map((user) => ({
             id : user.id
-            , avatar: user.avatar
+            , avatar: user.avatar === 'img=' ? null : 'http://localhost:5000/api/users/image/' + user.id
             , login : user.login
             , rank: user.rank.rank
         }));
@@ -47,7 +47,7 @@ export class UserService {
 
         let formattedUsers: AffichageUserDTO = {
             id : oneUser.id
-            , avatar: oneUser.avatar
+            , avatar: 'http://localhost:5000/api/users/image/' + oneUser.id
             , login : oneUser.login
             , mail : oneUser.mail
             , bio : oneUser.bio
@@ -55,6 +55,18 @@ export class UserService {
         };
         
         return formattedUsers;
+    }
+
+    async getImage(userId : number) : Promise<string>
+    {
+        let oneUser = await this.usersRepo.findOne({
+            where : { id : userId },
+            relations : {
+                rank : true
+              }
+        }).catch(() => {throw new HttpException("Erreur lors de l'encodage de l'Id de l'utilisateur", HttpStatus.NOT_FOUND)})
+        
+        return oneUser.avatar;
     }
 
     async findByEmail(email : string) : Promise<UsersEntity>
@@ -75,25 +87,26 @@ export class UserService {
         .catch (() => {throw new HttpException("Erreur lors de la comparaison des mots de passe", HttpStatus.BAD_REQUEST)})
     }
 
-    async create(newUser : NewUser) : Promise<AffichageNewUserDTO>
+    async create(newUser : NewUserDTO) : Promise<AffichageNewUserDTO>
     {
         const options = {
             type: argon2.argon2id,
             memoryCost: 2 ** 16, // Paramètres de coût de mémoire
             hashLength: 256, // Longueur du hash en octets
         };
-        
-        const saltRounds = 10;
 
         const hashedPassword = await argon2.hash(newUser.mdp, options);
         
         let userEntityCreated = this.usersRepo.create({
             ...newUser,
-            mdp: hashedPassword, // Stocke le hash du mot de passe dans l'entité utilisateur
+            mdp: hashedPassword // Stocke le hash du mot de passe dans l'entité utilisateur
         })
-
+        
         userEntityCreated.rank = await this.rankRepo.findOne({where : {id : 4}})
+        userEntityCreated.avatar = 'img'
 
+        console.log(userEntityCreated);
+        
         let resultSave = await this.usersRepo
         .save(userEntityCreated)
         .catch(_ => {throw new HttpException("Erreur inconnue (mais plutôt grave) lors de l'enregistrement de l'utilisateur", HttpStatus.FORBIDDEN)})

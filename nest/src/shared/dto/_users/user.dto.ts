@@ -1,9 +1,15 @@
 import { IsDefined } from "class-validator"
 import { UserRank } from "./userRank.dto"
 import { Test } from "../_tests/test.dto"
+import { UsersEntity } from "src/shared/entities/user.entity";
 
 export class User {
-    constructor() {}
+    constructor(
+        user: UsersEntity
+    ) {
+        this.avatar = 'http://localhost:5000/api/users/image/' + user.id;
+        this.login = user.login;
+    }
 
     @IsDefined()
     id : number

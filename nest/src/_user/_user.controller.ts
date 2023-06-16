@@ -1,12 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, ValidationPipe } from "@nestjs/common"
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, StreamableFile, ValidationPipe } from "@nestjs/common"
 import { UserService } from "./_user.service"
-import { User } from "src/shared/dto/_users/user.dto"
 import { UserId } from "src/shared/dto/_users/userId.dto"
-import { NewUser } from "src/shared/dto/_users/newUser.dto"
 import { AffichageNewUserDTO, AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/affichage/affichageUser.dto"
 import { RankId } from "src/shared/dto/_users/rankId.dto"
 import { UserRank } from "src/shared/dto/_users/userRank.dto"
 import { UserModified } from "src/shared/dto/_users/userModified.dto"
+import { NewUserDTO } from "src/shared/dto/_users/newUser.dto"
 
 @Controller('api/users')
 export class UserController {
@@ -28,12 +27,10 @@ export class UserController {
         return this.userService.getOne(userId)
     }
 
-    @Post()
-    createUser(
-        @Body(ValidationPipe) newUser : NewUser
-    ) : Promise<AffichageNewUserDTO>
-    {
-        return this.userService.create(newUser)
+    @Get('image/:id')
+    async getImage(@Param('id') id: number) {
+        const image = await this.userService.getImage(id);
+        return new StreamableFile(Buffer.from(image, "base64"), { type: 'image/jpeg' })
     }
 
     @Patch(":userId")

@@ -13,9 +13,11 @@ import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TestComponent } from './pages/liste-tests/test/test.component';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
 import { ProfileEditComponent } from './pages/profil-edit/profil-edit.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { DefaultImagePipe } from './pipes/default-image.pipe';
 
 @NgModule({
   declarations: [
@@ -30,13 +32,15 @@ import { ProfileEditComponent } from './pages/profil-edit/profil-edit.component'
     , ConnexionComponent
     , AbonnesComponent
     , EnregistrementComponent
-    , ProfileEditComponent
+    , ProfileEditComponent, DefaultImagePipe
   ],
   imports: [
     BrowserModule
     , AppRoutingModule
     , HttpClientModule
     , FormsModule
+    , ReactiveFormsModule
+    , ImageCropperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

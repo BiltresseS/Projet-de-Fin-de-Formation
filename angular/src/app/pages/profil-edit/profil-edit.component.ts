@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-profil-edit',
@@ -12,6 +13,8 @@ export class ProfileEditComponent implements OnInit {
   oldPassword!: string;
   newPassword!: string;
   bioMaxLength : number = 1024
+  imageChangedEvent: any = '';
+  croppedImage: string|undefined|null;
 
   constructor(
     private http: HttpClient
@@ -23,14 +26,23 @@ export class ProfileEditComponent implements OnInit {
     const url = `http://localhost:5000/api/users/${userId}`;
 
     this.http.get(url).subscribe((profile: any) => {
-      this.userProfile = profile;
+      this.userProfile = profile
+      this.croppedImage = profile.avatar
     });
 
-    
+  }
+
+  fileChangeEvent(event: any) {
+    this.imageChangedEvent = event
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+
+    this.userProfile.avatar = event.base64?.split(',')[1]
   }
 
   submitForm(): void {
-
     const modifiedProfile : any = {
       avatar: this.userProfile.avatar
       , login: this.userProfile.login

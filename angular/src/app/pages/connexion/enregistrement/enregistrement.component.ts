@@ -21,6 +21,9 @@ export class EnregistrementComponent {
     this._authService.register(this.pseudo, this.email, this.password)
     .subscribe(
       response => {
+        const token = response.token;
+        // Stockez le jeton d'authentification localement (dans le localStorage)
+        localStorage.setItem('token', token);
         this.router.navigate(['/accueil']);
       },
       error => {

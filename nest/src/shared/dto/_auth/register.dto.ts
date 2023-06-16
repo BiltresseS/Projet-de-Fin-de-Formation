@@ -1,5 +1,5 @@
 export class RegisterDTO {
     login : string
-    email : string
-    password : string
+    mail : string
+    mdp : string
 }

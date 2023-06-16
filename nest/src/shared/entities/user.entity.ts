@@ -8,7 +8,13 @@ export class UsersEntity extends LifetimeEntity{
     @PrimaryGeneratedColumn()
     id : number
 
-    @Column({length : 128, default : "img"})
+    @Column({
+        type: "blob",
+        transformer: {
+          to: (value: string) => Buffer.from(value, "base64"),
+          from: (value: Buffer) => value.toString("base64")
+        }
+    })
     avatar : string
 
     @Column({length : 16, nullable : false, unique : true})

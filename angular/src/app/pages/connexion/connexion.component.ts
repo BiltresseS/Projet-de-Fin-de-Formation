@@ -2,6 +2,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { HeaderComponent } from '../shared/header/header.component';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 
 @Component({
   selector: 'app-connexion',
@@ -14,7 +16,8 @@ export class ConnexionComponent {
 
   constructor(
     private _authService : AuthService
-    , private router: Router
+    , private _router: Router
+    , private _local : LocalStorageService
   ) {}
 
   onSubmit() : void {
@@ -23,16 +26,15 @@ export class ConnexionComponent {
       , password: this.password
     };
 
-    const token = localStorage.getItem('token');
+    //const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', 'Bearer ${token}');
 
     this._authService.login(loginData.email, loginData.password, headers).subscribe(
       response => {
         const token = response.token;
         // Stockez le jeton d'authentification localement (dans le localStorage)
-        localStorage.setItem('token', token);
-
-        this.router.navigate(['/profil']);
+        this._local.setToken(token);
+        this._router.navigate(['/profil']);
       },
       error => {
         // Gérer les erreurs de connexion

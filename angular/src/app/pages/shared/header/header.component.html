@@ -8,9 +8,11 @@
             </li><li>
                 <a routerLink="liste-abonnes">Liste des abonnés</a>
             </li><li>
-                <a routerLink="profil">Profil</a>
-            </li><li>
+                <a [routerLink]="isLogged ? 'profil' : null" [ngClass]="{ 'disabled-link': !isLogged }">Profil</a>
+            </li><li *ngIf="!isLogged">
                 <a routerLink="connexion">Connexion</a>
+            </li><li *ngIf="isLogged">
+                <a href="" (click)="logout()">Déconnexion</a>
             </li>
         </ul>
     </nav>

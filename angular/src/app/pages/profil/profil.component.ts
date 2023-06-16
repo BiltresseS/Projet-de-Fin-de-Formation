@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserInterface } from 'src/app/interfaces/users-interface';
 
 @Component({
   selector: 'app-profil',
@@ -8,11 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent implements OnInit {
-  userProfile: any;
+  userProfile! : UserInterface;
 
   constructor(
-    private http: HttpClient
-    , private router: Router
+    private _http: HttpClient
   ) { }
 
   ngOnInit(): void {
@@ -21,17 +21,9 @@ export class ProfilComponent implements OnInit {
     const userId = tokenPayload.sub;
     const url = `http://localhost:5000/api/users/${userId}`;
 
-    this.http.get(url).subscribe((profile: any) => {
+    this._http.get(url).subscribe((profile: any) => {
       this.userProfile = profile;
     });
-  }
-
-  logout(): void {
-    // Supprimer le token du stockage local
-    localStorage.removeItem('token');
-
-    // Rediriger vers la page de connexion
-    this.router.navigate(['/connexion']);
   }
 
   private decodeToken(token: string): string {
