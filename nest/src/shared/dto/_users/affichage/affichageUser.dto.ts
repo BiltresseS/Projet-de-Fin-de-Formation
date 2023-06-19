@@ -19,7 +19,7 @@ export class AffichageUserDTO {
     @Expose()
     bio : string
 
-    rank : string
+    rank : UserRank
 }
 
 export class AffichageNewUserDTO {

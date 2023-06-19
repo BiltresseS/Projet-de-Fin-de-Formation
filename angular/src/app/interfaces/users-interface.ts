@@ -23,5 +23,6 @@ export interface NewUserInterface {
 }
 
 export interface RanksInterface {
-    name : string
+    id : number
+    rank : string
 }

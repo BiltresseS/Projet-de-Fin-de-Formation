@@ -1,7 +1,7 @@
 import { IsDefined } from "class-validator"
 import { Test } from "../_tests/test.dto"
 
-export class NewGenre{
+export class NewGenreDTO{
 
     @IsDefined()
     name : string

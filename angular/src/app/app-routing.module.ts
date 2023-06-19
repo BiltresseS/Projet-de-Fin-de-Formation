@@ -8,7 +8,7 @@ import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { TestComponent } from './pages/liste-tests/test/test.component';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
-import { ProfileEditComponent } from './pages/profil-edit/profil-edit.component';
+import { ProfileEditComponent } from './pages/profil/profil-edit/profil-edit.component';
 
 const routes: Routes = [
   {path : '', redirectTo : 'accueil', pathMatch : 'full'}

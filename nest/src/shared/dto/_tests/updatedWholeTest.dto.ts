@@ -4,7 +4,6 @@ import { DistributersEntity } from "src/shared/entities/distributers.entity"
 import { GalleryEntity } from "src/shared/entities/gallery.entity"
 import { LifetimeEntity } from "src/shared/entities/lifetime.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
-import { Genres } from "../_genres/genres.dto"
 import { ConsolesEntity } from "src/shared/entities/console.entity"
 import { GenresEntity } from "src/shared/entities/genres.entity"
 

@@ -7,12 +7,16 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './_auth/_auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtMiddleware } from './shared/middlewares/jwt.middleware';
+import { GenreModule } from './_genre/_genre.module';
+import { RankModule } from './_rank/_rank.module';
 
 @Module({
   imports: [
     TestModule
     , UserModule
     , ConsoleModule
+    , GenreModule
+    , RankModule
     , AuthModule
     , TypeOrmModule.forRoot({
       type: 'mysql',
@@ -30,7 +34,7 @@ import { JwtMiddleware } from './shared/middlewares/jwt.middleware';
     , JwtModule.register({
       secret: process.env.JWT_SECRET_KEY, // Clé secrète pour signer les tokens JWT (peut être récupérée depuis le fichier .env)
       signOptions: { expiresIn: '24h' }, // Options de signature des tokens (par exemple : expiration)
-    }),
+    })
   ],
   controllers: [],
   providers: [],

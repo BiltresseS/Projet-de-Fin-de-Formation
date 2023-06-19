@@ -51,7 +51,7 @@ export class UserService {
             , login : oneUser.login
             , mail : oneUser.mail
             , bio : oneUser.bio
-            , rank: oneUser.rank.rank
+            , rank: oneUser.rank
         };
         
         return formattedUsers;
@@ -159,7 +159,7 @@ export class UserService {
             , login : updatedUser.login
             , mail : updatedUser.mail
             , bio : updatedUser.bio
-            , rank : userExist.rank.rank
+            , rank : userExist.rank
         };
         
           return formattedUsers;

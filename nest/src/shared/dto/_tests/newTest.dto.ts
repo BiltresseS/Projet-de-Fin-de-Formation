@@ -3,9 +3,9 @@ import { DeveloppersEntity } from "src/shared/entities/developpers.entity"
 import { DistributersEntity } from "src/shared/entities/distributers.entity"
 import { GalleryEntity } from "src/shared/entities/gallery.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
-import { Genres } from "../_genres/genres.dto"
 import { LifetimeEntity } from "src/shared/entities/lifetime.entity"
 import { ConsoleDTO } from "../_consoles/consoles.dto"
+import { GenresDTO } from "../_genres/genres.dto"
 
 export class NewTestDTO extends LifetimeEntity {
     id : number
@@ -22,7 +22,7 @@ export class NewTestDTO extends LifetimeEntity {
 
     consoles : ConsoleDTO[]
 
-    genres : Genres[]
+    genres : GenresDTO[]
 
     developpeur : DeveloppersEntity
     

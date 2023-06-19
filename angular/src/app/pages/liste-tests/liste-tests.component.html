@@ -1,4 +1,22 @@
 <div *ngIf="tests">
+    <div>
+        trier par console
+        <select [(ngModel)]="selectedConsole" (change)="onConsoleSelected()">
+            <option value="">Toutes les consoles</option>
+            <option *ngFor="let c of consoles" [value]="c.id">
+                {{ c.name }}
+            </option>
+        </select>
+    </div>
+    <div>
+        trier par genre
+        <select [(ngModel)]="selectedGenre" (change)="onGenreSelected()">
+            <option value="">Tous les genres</option>
+            <option *ngFor="let g of genres" [value]="g.id">
+                {{ g.name }}
+            </option>
+        </select>
+    </div>
     <ul>
         <li *ngFor="let t of tests">
             <a [routerLink]="['../test', t.id]">

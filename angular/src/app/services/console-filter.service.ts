@@ -8,11 +8,15 @@ import { ConsoleInterface } from '../interfaces/consoles-interface';
 })
 export class ConsoleFilterService {
   
-  private readonly url : string = "http://localhost:4200/api/consoles"
+  private readonly url : string = "http://localhost:5000/api/consoles"
 
   constructor(private _client : HttpClient) {}
 
   getConsoles(url : string): Observable<ConsoleInterface[]> {
     return this._client.get<ConsoleInterface[]>(url);
+  }
+
+  filterConsoles(): Observable<ConsoleInterface[]> {
+    return this._client.get<ConsoleInterface[]>(this.url);
   }
 }

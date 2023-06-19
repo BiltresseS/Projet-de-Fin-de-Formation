@@ -26,4 +26,11 @@ export class LocalStorageService {
     localStorage.removeItem('token');
     this.IsLogged.next(false);
   }
+
+  public decodeToken(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const decodedToken = window.atob(base64);
+    return decodedToken;
+  }
 }

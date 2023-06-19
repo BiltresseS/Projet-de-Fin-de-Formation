@@ -7,12 +7,18 @@
                 <a routerLink="liste-tests">Liste des tests</a>
             </li><li>
                 <a routerLink="liste-abonnes">Liste des abonnés</a>
-            </li><li>
-                <a [routerLink]="isLogged ? 'profil' : null" [ngClass]="{ 'disabled-link': !isLogged }">Profil</a>
             </li><li *ngIf="!isLogged">
                 <a routerLink="connexion">Connexion</a>
             </li><li *ngIf="isLogged">
-                <a href="" (click)="logout()">Déconnexion</a>
+                <ul>
+                    <li>
+                        <a [routerLink]="isLogged ? 'profil' : null" [ngClass]="{ 'disabled-link': !isLogged }">{{profile.login}}</a>
+                    </li><li *ngIf="isAllowed">
+                        <a [routerLink]="isAllowed ? 'create-test' : null">Créer un test</a>
+                    </li><li>
+                        <a href="" (click)="logout()">Déconnexion</a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>

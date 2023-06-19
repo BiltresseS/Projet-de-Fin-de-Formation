@@ -19,4 +19,9 @@ export class UserService {
   getFullUser(url : string): Observable<UserInterface> {
     return this._client.get<UserInterface>(url)
   }
+
+  updateRank(userId: number, updatedRank: { id: number }): Observable<any> {
+    const url = `${this.url}/${userId}`;
+    return this._client.patch(url, updatedRank);
+  }
 }

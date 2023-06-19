@@ -15,7 +15,7 @@ import { TestComponent } from './pages/liste-tests/test/test.component';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
-import { ProfileEditComponent } from './pages/profil-edit/profil-edit.component';
+import { ProfileEditComponent } from './pages/profil/profil-edit/profil-edit.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { DefaultImagePipe } from './pipes/default-image.pipe';
 
