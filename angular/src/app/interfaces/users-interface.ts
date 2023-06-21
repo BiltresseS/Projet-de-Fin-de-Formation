@@ -5,6 +5,7 @@ export interface UserInterface {
     mail : string
     bio : string
     rank : RanksInterface
+    deletedAt : boolean
 
     token? : string
 }
@@ -14,6 +15,7 @@ export interface UserSmollInterface {
     avatar : string
     login : string
     rank : RanksInterface
+    deletedAt : boolean
 }
 
 export interface NewUserInterface {

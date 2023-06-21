@@ -12,6 +12,8 @@
                 {{ r.rank }}
             </option>
         </select>
+        <button (click)="disableUser()" *ngIf="!user.deletedAt">Désactiver</button>
+        <button (click)="reenableUser()" *ngIf="user.deletedAt">Réactiver</button>
     </div>
 </div>
 <p>

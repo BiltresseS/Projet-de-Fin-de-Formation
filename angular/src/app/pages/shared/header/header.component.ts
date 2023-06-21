@@ -12,45 +12,49 @@ import { LocalStorageService } from "src/app/services/local-storage.service";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  isLogged! : boolean;
+  isLogged!: boolean;
   isAllowed: boolean = false;
-  consoles! : ConsoleInterface[]
-  profile! : UserInterface
+  consoles!: ConsoleInterface[]
+  profile!: UserInterface
 
   constructor(
-    private _service : ConsoleFilterService
-    , private _router : Router
-    , private _local : LocalStorageService
-    , private _auth : AuthService
-    ){}
+    private _service: ConsoleFilterService
+    , private _router: Router
+    , private _local: LocalStorageService
+    , private _auth: AuthService
+  ) { }
 
   ngOnInit() {
-    this._local.IsLogged.subscribe( value => this.isLogged=value);
-    this._local.checkToken();
-    
-    let startUrl : string = "http://localhost:5000/api/consoles"
-    this.load(startUrl)
+    this._local.IsLogged.subscribe(value => {
+      this.isLogged = value;
 
-    this._auth.getUserProfile().subscribe(
-      (profile) => {
-        if (profile.rank.id >= 1 && profile.rank.id <= 3) {
-          this.isAllowed = true;
-        } else {
-          this.isAllowed = false;
-        }
-        this.profile = profile
-      },
-      (error) => {
-        // Gère les erreurs de récupération du profil ici
-        console.log('Error !');
-        console.log(error);
+      if (value) {
+        this._auth.getUserProfile().subscribe(
+          profile => {
+            if (profile.rank.id >= 1 && profile.rank.id <= 3) {
+              this.isAllowed = true;
+            } else {
+              this.isAllowed = false;
+            }
+            this.profile = profile
+          },
+          error => {
+            // Gère les erreurs de récupération du profil ici
+            console.log('Error !');
+            console.log(error);
+          }
+        );
       }
-    );
+    });
+    this._local.checkToken();
+
+    let startUrl: string = "http://localhost:5000/api/consoles"
+    this.load(startUrl)
   }
 
-  load(url : string) {
+  load(url: string) {
     this._service.getConsoles(url).subscribe({
-      next : (data : ConsoleInterface[]) => {
+      next: (data: ConsoleInterface[]) => {
         this.consoles = data.reverse()
       }
     })

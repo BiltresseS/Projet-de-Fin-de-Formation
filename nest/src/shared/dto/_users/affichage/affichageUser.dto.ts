@@ -20,6 +20,8 @@ export class AffichageUserDTO {
     bio : string
 
     rank : UserRank
+
+    deletedAt : Date
 }
 
 export class AffichageNewUserDTO {
@@ -37,6 +39,8 @@ export class AffichageNewUserDTO {
 
 export class AffichageUserSmollDTO {
     constructor() {}
+
+    deletedAt : boolean
 
     @Expose()
     avatar : string

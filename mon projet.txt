@@ -111,3 +111,15 @@ Elements :
             mot de passe
         
         bouton "inscription"
+
+Modifié en cours de route :
+    - gestion du profil ou de la connexion selon le statut de connexion de l'utilisateur
+
+TODO :
+    - système de "points de participations"
+    - liste des abonnés visible uniquement après connexion
+    - mettre liens derrière menu shortcuts
+    - liste des tests => filtre par utilisateur et par notes, changement d'affichage, nombres d'affichages et recherche
+    - page de test => modifier, voter, supprimer
+    - page profil => liste des tests
+    - liste des abonnés => date d'inscription

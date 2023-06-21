@@ -6,9 +6,9 @@ import { ListeAbonnesComponent } from './pages/liste-abonnes/liste-abonnes.compo
 import { ProfilComponent } from './pages/profil/profil.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { TestComponent } from './pages/liste-tests/test/test.component';
-import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes/abonnes.component';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
 import { ProfileEditComponent } from './pages/profil/profil-edit/profil-edit.component';
+import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes.component';
 
 const routes: Routes = [
   {path : '', redirectTo : 'accueil', pathMatch : 'full'}
@@ -24,7 +24,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes
+    , {scrollPositionRestoration : 'enabled'}
+  )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
