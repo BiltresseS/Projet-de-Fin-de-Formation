@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { LifetimeEntity } from "./lifetime.entity";
-import { TestsEntity } from "./test.entity";
 import { RanksEntity } from "./rank.entity";
+import { TestEntity } from "./test.entity";
 
 @Entity("users")
 export class UsersEntity extends LifetimeEntity{
@@ -33,10 +33,10 @@ export class UsersEntity extends LifetimeEntity{
     @JoinColumn()
     rank : RanksEntity
 
-    @OneToMany(() => TestsEntity, test => test.author, { cascade : ["insert", "update"]})
-    tests : TestsEntity[]
+    @OneToMany(() => TestEntity, test => test.author, { cascade : ["insert", "update"]})
+    tests : TestEntity[]
 
-    @ManyToMany(() => TestsEntity, tests => tests.upVotes, { cascade : ["insert", "update"]})
+    @ManyToMany(() => TestEntity, tests => tests.upVotes, { cascade : ["insert", "update"]})
     @JoinColumn()
-    testsUpVotes : TestsEntity[]
+    testsUpVotes : TestEntity[]
 }

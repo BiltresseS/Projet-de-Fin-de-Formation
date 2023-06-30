@@ -5,9 +5,6 @@ import { AffichageUserDTO, AffichageUserSmollDTO } from "src/shared/dto/_users/a
 import { RankId } from "src/shared/dto/_users/rankId.dto"
 import { UserRank } from "src/shared/dto/_users/userRank.dto"
 import { UserModified } from "src/shared/dto/_users/userModified.dto"
-import { JwtMiddleware } from "src/shared/middlewares/jwt.middleware"
-import { AdminGuard } from "src/shared/guards/admin.guard"
-import { UsersEntity } from "src/shared/entities/user.entity"
 
 @Controller('api/users')
 export class UserController {
@@ -31,8 +28,7 @@ export class UserController {
     @Get(":userId")
     getOneUser(
         @Param("userId", ParseIntPipe) userId: UserId
-        ,
-        @Query() query
+        , @Query() query
     ): Promise<AffichageUserDTO> {
         let includeDeleted = false;
 

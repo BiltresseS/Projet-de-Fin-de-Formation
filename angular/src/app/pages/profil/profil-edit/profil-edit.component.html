@@ -1,7 +1,6 @@
 <form (ngSubmit)="submitForm()" #profileForm="ngForm">
   <div>
     <label for="avatar">Avatar</label>
-    <!-- <input type="text" id="avatar" name="avatar" [(ngModel)]="userProfile.avatar" required> -->
     <div class="cropped-image">
       <img [src]="croppedImage">
     </div>
@@ -12,28 +11,17 @@
       <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
         format="jpeg" (imageCropped)="imageCropped($event)" output="base64"></image-cropper>
     </div>
-    <!-- <div>
-      <button type="submit" class="p-button p-button-raised p-button-info" pButton>Save</button>
-    </div> -->
   </div>
-  <div>
+  <div *ngIf="userProfile">
     <label for="login">Login</label>
-    <input type="text" id="login" name="login" [(ngModel)]="userProfile.login" required>
-  </div>
-  <div>
+    <input type="text" id="login" name="login" [(ngModel)]="userProfile.login" required><br>
     <label for="mail">Mail</label>
-    <input type="email" id="mail" name="mail" [(ngModel)]="userProfile.mail" required>
-  </div>
-  <div>
+    <input type="email" id="mail" name="mail" [(ngModel)]="userProfile.mail" required><br>
     <label for="bio">Bio</label>
     <textarea id="bio" name="bio" [(ngModel)]="userProfile.bio" maxlength="{{ bioMaxLength }}" required></textarea>
     <div class="character-count">{{ userProfile.bio.length }}/{{ bioMaxLength }} caractères</div>
-  </div>
-  <div>
     <label for="oldPassword">Ancien mot de passe</label>
-    <input type="password" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" required>
-  </div>
-  <div>
+    <input type="password" id="oldPassword" name="oldPassword" [(ngModel)]="oldPassword" required><br>
     <label for="newPassword">Nouveau mot de passe (optionnel)</label>
     <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword">
   </div>

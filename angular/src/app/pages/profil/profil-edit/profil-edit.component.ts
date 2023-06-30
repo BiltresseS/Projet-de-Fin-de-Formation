@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { UserInterface } from 'src/app/interfaces/users-interface';
 
 @Component({
   selector: 'app-profil-edit',
@@ -9,7 +10,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   styleUrls: ['./profil-edit.component.scss']
 })
 export class ProfileEditComponent implements OnInit {
-  userProfile: any = {};
+  userProfile!: any;
   oldPassword!: string;
   newPassword!: string;
   bioMaxLength : number = 1024
@@ -29,7 +30,6 @@ export class ProfileEditComponent implements OnInit {
       this.userProfile = profile
       this.croppedImage = profile.avatar
     });
-
   }
 
   fileChangeEvent(event: any) {
@@ -57,7 +57,6 @@ export class ProfileEditComponent implements OnInit {
     
     const userId = this.getUserIdFromToken();
     const url = `http://localhost:5000/api/users/${userId}`;
-
     this.http.put(url, modifiedProfile).subscribe((response: any) => {
       // Gérer la réponse de l'API après la modification du profil
 

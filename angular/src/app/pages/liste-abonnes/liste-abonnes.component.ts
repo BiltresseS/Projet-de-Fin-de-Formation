@@ -40,13 +40,14 @@ export class ListeAbonnesComponent {
       }
     )
   }
-
+  
   load(url: string) {
     this._service.getUsers(url).subscribe({
       next: (data: UserSmollInterface[]) => {
         this.abonnes = data
       }
     })
+    console.log(this.abonnes);
   }
 
   loadAll(url: string) {

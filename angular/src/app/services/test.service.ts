@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { TestInterface, TestPreviewInterface } from '../interfaces/tests-interface';
+import { NewTestInterface, SubmitNewTestInterface, SubmitReturnNewTestInterface, TestInterface, TestPreviewInterface } from '../interfaces/tests-interface';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -18,5 +18,18 @@ export class TestService {
 
   getFullTest(url : string): Observable<TestInterface> {
     return this._client.get<TestInterface>(url)
+  }
+
+  submitTest(test: SubmitNewTestInterface): Observable<TestInterface> {
+    return this._client.post<SubmitReturnNewTestInterface>(this.url, test).pipe(
+      map((newTest: SubmitReturnNewTestInterface) => {
+        const testWithId: TestInterface = {
+          id: 0,
+          upVotes: [],
+          ...newTest,
+        };
+        return testWithId;
+      })
+    );
   }
 }

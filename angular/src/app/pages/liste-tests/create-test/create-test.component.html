@@ -1,1 +1,102 @@
-<p>create-test works!</p>
+<form id="mainForm" (ngSubmit)="submitForm()" *ngIf="newTest" enctype="multipart/form-data">
+    <div>
+        <label for="title">Titre</label>
+        <input type="text" id="title" name="title" [(ngModel)]="newTest.title" required>
+    </div>
+    <div>
+        <label for="cover">Cover</label>
+        <div class="cropped-image">
+          <img [src]="cover">
+        </div>
+        <div>
+          <input type="file" (change)="onCoverSelected($event)" accept="image/*">
+        </div>
+      </div>
+    <div>
+        <label for="consoles">Consoles</label>
+        <select [(ngModel)]="selectedConsole" id="consoles" name="consoles" [(ngModel)]="newTest.consoles" multiple>
+            <option *ngFor="let c of consoles" [value]="c">
+                {{ c.name }}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="genres">Genres</label>
+        <select [(ngModel)]="selectedGenre" id="genres" name="genres" [(ngModel)]="newTest.genres" multiple>
+            <option *ngFor="let g of genres" [value]="g">
+                {{ g.name }}
+            </option>
+        </select>
+    </div>
+    <div>
+        <label for="developper">Développeur</label>
+        <select id="developper" name="developper" [(ngModel)]="developpers" required>
+            <option *ngFor="let de of listDeveloppers" [value]="de.id">
+                {{ de.name }}
+            </option>
+        </select>
+        <button type="button" class="btn btn-primary" (click)="openModal('developperModal')">Ajouter un développeur</button>
+        <ngx-smart-modal #developperModal identifier="developperModal">
+            <h1>Ajouter un développeur</h1>
+            <form (ngSubmit)="submitDevelopperForm()">
+                <label>Nom du développeur</label>
+                <input type="text" [(ngModel)]="newDevelopper.name" name="name" required>
+                <button type="submit">Ajouter</button>
+            </form>
+            <button type="button" (click)="closeModal('developperModal')">Fermer</button>
+        </ngx-smart-modal>
+    </div>
+    <div>
+        <label for="distributer">Distributeur</label>
+        <select id="distributer" name="distributerModal" [(ngModel)]="distributers" required>
+            <option *ngFor="let di of listDistributers" [value]="di.id">
+                {{ di.name }}
+            </option>
+        </select>
+        <button type="button" class="btn btn-primary" (click)="openModal('distributerModal')">Ajouter un distributeur</button>
+        <ngx-smart-modal #distributerModal identifier="distributerModal">
+            <h1>Ajouter un distributeur</h1>
+            <form (ngSubmit)="submitDistributerForm()">
+                <label>Nom du distributeur</label>
+                <input type="text" [(ngModel)]="newDistributer.name" name="name" required>
+                <button type="submit">Ajouter</button>
+            </form>
+            <button type="button" (click)="closeModal('distributerModal')">Fermer</button>
+        </ngx-smart-modal>
+    </div>
+    <div>
+        <label for="jap">Date de sortie Japonnaise</label>
+        <input type="date" id="jap" name="jap" [(ngModel)]="newTest.dateSortieJAP" required><br>
+        <label for="us">Date de sortie Américaine</label>
+        <input type="date" id="us" name="us" [(ngModel)]="newTest.dateSortieUS" required><br>
+        <label for="pal">Date de sortie Européenne</label>
+        <input type="date" id="pal" name="pal" [(ngModel)]="newTest.dateSortiePAL" required>
+    </div>
+    <div>
+        <label for="resume">Petit résumé</label>
+        <textarea id="resume" name="resume" [(ngModel)]="newTest.resume" required></textarea>
+    </div>
+    <div>
+        <label for="test">Test</label>
+        <textarea id="test" name="test" [(ngModel)]="newTest.test" required></textarea>
+    </div>
+    <div>
+        <label for="note">Note</label>
+        <input type="number" id="note" name="note" [(ngModel)]="newTest.note" required min="0" max="20">
+    </div>
+    <button type="button" (click)="openModal('ajoutImageModal')">Ajouter une image</button>
+    <ngx-smart-modal #developperModal identifier="ajoutImageModal">
+        <h1>Ajouter une image à la gallerie</h1>
+        <form (ngSubmit)="addImage()" #imageForm="ngForm">
+            <input type="file" (change)="onFileSelected($event)" accept="image/*">
+            <input type="text" [(ngModel)]="newImageComment" name="commentaire" placeholder="Ajouter un commentaire">
+            <button type="submit">Valider</button>
+          </form>
+        <button type="button" (click)="closeModal('developperModal')">Fermer</button>
+    </ngx-smart-modal>
+    <div *ngFor="let g of gallery">
+        <img [src]="g.file" alt="Preview" width="100" height="100">
+        <p>{{ g.commentaire }}</p>
+      </div>
+    <button type="submit" form="mainForm">Valider</button>
+</form>

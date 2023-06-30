@@ -2,13 +2,11 @@ import { IsDefined, IsNumber, IsString, Max, MaxLength, Min } from "class-valida
 import { DeveloppersEntity } from "src/shared/entities/developpers.entity"
 import { DistributersEntity } from "src/shared/entities/distributers.entity"
 import { GalleryEntity } from "src/shared/entities/gallery.entity"
-import { UsersEntity } from "src/shared/entities/user.entity"
 import { LifetimeEntity } from "src/shared/entities/lifetime.entity"
 import { ConsoleDTO } from "../_consoles/consoles.dto"
 import { GenresDTO } from "../_genres/genres.dto"
 
 export class NewTestDTO extends LifetimeEntity {
-    id : number
 
     @IsDefined()
     @IsString()
@@ -17,7 +15,6 @@ export class NewTestDTO extends LifetimeEntity {
 
     @IsDefined()
     @IsString()
-    @MaxLength(256)
     cover : string
 
     consoles : ConsoleDTO[]
@@ -56,7 +53,7 @@ export class NewTestDTO extends LifetimeEntity {
     @Max(20)
     note : number
 
-    author : UsersEntity
+    author : string
     
     gallery : GalleryEntity[]
 }

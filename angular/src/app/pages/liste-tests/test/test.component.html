@@ -1,55 +1,78 @@
-<h1>{{test.title}}</h1>
-<img [src]="test.cover">
-<div>
-    <p>
-        consoles : 
-    </p><ul>
+<div *ngIf="test">
+    <h1>{{test.title}}</h1>
+    <img [src]="test.cover">
+    <div>
+        <p>
+            consoles :
+        </p>
+        <ul>
             <li *ngFor="let c of test.consoles">
-                {{c}}
+                {{c.name}}
             </li>
         </ul>
-    <p>
-        genres : 
-    </p><ul>
+        <p>
+            genres :
+        </p>
+        <ul>
             <li *ngFor="let g of test.genres">
-                {{g}}
+                {{g.name}}
             </li>
         </ul>
-    <p>
-        Développeur : {{test.developpeur}}
-    </p><p>
-        Distributeur : {{test.distributeur}}
-    </p><p>
-        Dates de sorties <ul>
+        <p>
+            Développeur : {{test.developpeur.name}}
+        </p>
+        <p>
+            Distributeur : {{test.distributeur.name}}
+        </p>
+        <p>
+            Dates de sorties
+        <ul>
             <li>
                 Jap : {{test.dateSortieJAP}}
-            </li><li>
+            </li>
+            <li>
                 Us : {{test.dateSortieUS}}
-            </li><li>
+            </li>
+            <li>
                 Pal : {{test.dateSortiePAL}}
             </li>
         </ul>
-    
+
+    </div>
+    <p>
+        {{test.resume}}
+    </p>
+    <p>
+        {{test.test}}
+    </p>
+    <p>
+        Note : {{test.note}}/20
+    </p>
+    <p>
+        auteur : 
+    </p>
+    <div *ngIf="author">
+        <img [src]="author.avatar">
+        {{author.login}}<br>
+        {{author.rank.rank}}
+    </div>
+    <p>
+        likes :
+    </p>
+    <ul>
+        <li *ngFor="let v of test.upVotes">
+            {{v}}
+        </li>
+    </ul>
+    <p>
+        gallerie :
+    </p>
+    <ul>
+        <li *ngFor="let g of test.gallery">
+            <img [src]="g.file">
+            <p>
+                {{g.commentaire}}
+            </p>
+        </li>
+    </ul>
 </div>
-<p>
-    {{test.resume}}
-</p><p>
-    {{test.test}}
-</p><p>
-    Note : {{test.note}}/20
-</p><p>
-    auteur : {{test.author}}
-</p><p>
-    likes : 
-</p><ul>
-    <li *ngFor="let v of test.upVotes">
-        {{v}}
-    </li>
-</ul><ul>
-    <li *ngFor="let g of test.gallery">
-        <img [src]="g.url">
-        <p>
-            {{g.commentaire}}
-        </p>
-    </li>
-</ul>

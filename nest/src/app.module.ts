@@ -9,6 +9,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtMiddleware } from './shared/middlewares/jwt.middleware';
 import { GenreModule } from './_genre/_genre.module';
 import { RankModule } from './_rank/_rank.module';
+import { DeveloppersModule } from './_developper/_developper.module';
+import { DistributersModule } from './_distributer/_distributer.module';
+import { GalleryModule } from './_gallery/_gallery.module';
 
 @Module({
   imports: [
@@ -16,8 +19,11 @@ import { RankModule } from './_rank/_rank.module';
     , UserModule
     , ConsoleModule
     , GenreModule
+    , DeveloppersModule
+    , DistributersModule
     , RankModule
     , AuthModule
+    , GalleryModule
     , TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

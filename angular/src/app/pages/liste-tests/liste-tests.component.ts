@@ -1,8 +1,7 @@
 import { Component } from "@angular/core"
-import { ConsoleInterface } from "src/app/interfaces/consoles-interface"
-import { GenreInterface, TestPreviewInterface, upVotesInterface } from "src/app/interfaces/tests-interface"
-import { ConsoleFilterService } from "src/app/services/console-filter.service"
-import { GenreFilterService } from "src/app/services/genre-filter.service"
+import { ConsoleInterface, GenreInterface, TestPreviewInterface, UpVotesInterface } from "src/app/interfaces/tests-interface"
+import { ConsoleService } from "src/app/services/console.service"
+import { GenreService } from "src/app/services/genres.service"
 import { TestService } from "src/app/services/test.service"
 
 @Component({
@@ -15,14 +14,14 @@ export class ListeTestsComponent {
   tests! : TestPreviewInterface[]
   consoles! : ConsoleInterface[]
   genres! : GenreInterface[]
-  upVotes! : upVotesInterface[]
+  upVotes! : UpVotesInterface[]
   selectedConsole: number | null
   selectedGenre: number | null
 
   constructor(
     private _service : TestService
-    , private _consoleService : ConsoleFilterService
-    , private _genreService : GenreFilterService
+    , private _consoleService : ConsoleService
+    , private _genreService : GenreService
   ) {
     this.selectedConsole = null
     this.selectedGenre = null
@@ -44,7 +43,7 @@ export class ListeTestsComponent {
   }
 
   getConsoles() {
-    this._consoleService.filterConsoles().subscribe({
+    this._consoleService.getConsoles().subscribe({
       next: (data: ConsoleInterface[]) => {
         this.consoles = data;
       }
@@ -52,7 +51,7 @@ export class ListeTestsComponent {
   }
 
   getGenres() {
-    this._genreService.filterGenres().subscribe({
+    this._genreService.getGenres().subscribe({
       next: (data: GenreInterface[]) => {
         this.genres = data;
       }

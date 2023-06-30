@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { ConsoleInterface } from "src/app/interfaces/consoles-interface";
+import { ConsoleInterface } from "src/app/interfaces/tests-interface";
 import { UserInterface } from "src/app/interfaces/users-interface";
 import { AuthService } from "src/app/services/auth.service";
-import { ConsoleFilterService } from "src/app/services/console-filter.service";
+import { ConsoleService } from "src/app/services/console.service";
 import { LocalStorageService } from "src/app/services/local-storage.service";
 
 @Component({
@@ -18,7 +18,7 @@ export class HeaderComponent {
   profile!: UserInterface
 
   constructor(
-    private _service: ConsoleFilterService
+    private _console: ConsoleService
     , private _router: Router
     , private _local: LocalStorageService
     , private _auth: AuthService
@@ -36,6 +36,7 @@ export class HeaderComponent {
             } else {
               this.isAllowed = false;
             }
+            
             this.profile = profile
           },
           error => {
@@ -46,14 +47,13 @@ export class HeaderComponent {
         );
       }
     });
-    this._local.checkToken();
 
-    let startUrl: string = "http://localhost:5000/api/consoles"
-    this.load(startUrl)
+    this._local.checkToken();
+    this.load()
   }
 
-  load(url: string) {
-    this._service.getConsoles(url).subscribe({
+  load() {
+    this._console.getConsoles().subscribe({
       next: (data: ConsoleInterface[]) => {
         this.consoles = data.reverse()
       }

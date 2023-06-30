@@ -3,7 +3,7 @@ import { Expose } from "class-transformer"
 export class AffichageTestGalleryDTO {
     
     @Expose()
-    url : string
+    file : string
     
     @Expose()
     commentaire : string

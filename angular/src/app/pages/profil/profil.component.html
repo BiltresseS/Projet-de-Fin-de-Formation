@@ -1,7 +1,7 @@
 <div *ngIf="userProfile">
     <h2>{{ userProfile.login }}</h2>
     {{userProfile.id}}
-    <img [src]="userProfile.avatar" alt="Avatar">
+    <img [src]="userProfile.avatar | defaultAvatar" alt="Avatar">
     <p>{{ userProfile.mail }}</p>
     <p>{{ userProfile.bio }}</p>
     <p>{{ userProfile.rank.rank }}</p>

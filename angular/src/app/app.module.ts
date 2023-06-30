@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccueilComponent } from './pages/accueil/accueil.component';
@@ -16,10 +15,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EnregistrementComponent } from './pages/connexion/enregistrement/enregistrement.component';
 import { ProfileEditComponent } from './pages/profil/profil-edit/profil-edit.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { DefaultImagePipe } from './pipes/default-image.pipe';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CreateTestComponent } from './pages/liste-tests/create-test/create-test.component';
+import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { DefaultAvatarPipe } from './pipes/default-avatar.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,9 @@ import { CreateTestComponent } from './pages/liste-tests/create-test/create-test
     , ConnexionComponent
     , AbonnesComponent
     , EnregistrementComponent
-    , ProfileEditComponent, DefaultImagePipe, CreateTestComponent
+    , ProfileEditComponent
+    , CreateTestComponent
+    , DefaultAvatarPipe
   ],
   imports: [
     BrowserModule
@@ -43,6 +45,7 @@ import { CreateTestComponent } from './pages/liste-tests/create-test/create-test
     , FormsModule
     , ReactiveFormsModule
     , ImageCropperModule
+    , NgxSmartModalModule.forRoot()
   ],
   providers: [
     {

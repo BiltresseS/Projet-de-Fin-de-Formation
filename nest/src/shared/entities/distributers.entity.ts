@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 import { LifetimeEntity } from "./lifetime.entity"
-import { TestsEntity } from "./test.entity"
+import { TestEntity } from "./test.entity"
 
 @Entity("distributers")
 export class DistributersEntity extends LifetimeEntity {
@@ -10,6 +10,6 @@ export class DistributersEntity extends LifetimeEntity {
     @Column({length : 64, unique : true, nullable : false})
     name : string
 
-    @OneToMany(() => TestsEntity, test => test.distributer, { cascade : ["insert", "update"]})
-    tests : TestsEntity[]
+    @OneToMany(() => TestEntity, test => test.distributeur, { cascade : ["insert", "update"]})
+    tests : TestEntity[]
 }

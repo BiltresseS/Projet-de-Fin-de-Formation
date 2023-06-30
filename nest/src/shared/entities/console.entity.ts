@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 import { LifetimeEntity } from "./lifetime.entity";
-import { TestsEntity } from "./test.entity";
+import { TestEntity } from "./test.entity";
 
 @Entity("consoles")
 export class ConsolesEntity extends LifetimeEntity {
@@ -10,7 +10,7 @@ export class ConsolesEntity extends LifetimeEntity {
     @Column({length : 64, unique : true, nullable : false})
     name : string
 
-    @ManyToMany(() => TestsEntity, tests => tests.consoles, { cascade : ["insert", "update"]})
+    @ManyToMany(() => TestEntity, tests => tests.consoles, { cascade : ["insert", "update"]})
     @JoinColumn()
-    tests : TestsEntity[]
+    tests : TestEntity[]
 }

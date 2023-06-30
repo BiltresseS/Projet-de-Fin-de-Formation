@@ -12,7 +12,7 @@
             </li><li *ngIf="isLogged">
                 <ul>
                     <li>
-                        <a [routerLink]="isLogged ? 'profil' : null" [ngClass]="{ 'disabled-link': !isLogged }">{{profile.login}}</a>
+                        <a *ngIf="profile" [routerLink]="isLogged ? 'profil' : null" [ngClass]="{ 'disabled-link': !isLogged }">{{profile.login}}</a>
                     </li><li *ngIf="isAllowed">
                         <a [routerLink]="isAllowed ? 'create-test' : null">Créer un test</a>
                     </li><li>

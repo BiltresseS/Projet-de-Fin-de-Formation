@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer"
-import { UserRank } from "../userRank.dto"
+import { RanksEntity } from "src/shared/entities/rank.entity"
 
 export class AffichageUserDTO {
     constructor() {}
@@ -19,7 +19,7 @@ export class AffichageUserDTO {
     @Expose()
     bio : string
 
-    rank : UserRank
+    rank : RanksEntity
 
     deletedAt : Date
 }

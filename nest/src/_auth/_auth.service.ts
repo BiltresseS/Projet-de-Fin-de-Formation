@@ -36,6 +36,7 @@ export class AuthService {
     validUser.login = login;
     validUser.mail = email;
     validUser.mdp = password;
+    validUser.avatar = '/default.png'
   
     // Crée le nouvel utilisateur dans la base de données
     const newUser = await this.userService.create(validUser);

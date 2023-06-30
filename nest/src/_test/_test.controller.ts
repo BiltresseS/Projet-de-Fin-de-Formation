@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, ValidationPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, ValidationPipe, Put, StreamableFile } from '@nestjs/common';
 import { TestService } from './_test.service';
 import { UpdatedWholeTest } from 'src/shared/dto/_tests/updatedWholeTest.dto';
 import { AffichageTestDTO } from 'src/shared/dto/_tests/affichage/affichageTest.dto';
@@ -38,8 +38,16 @@ export class TestController {
     return this.testService.getOne(testId)
   }
 
+  @Get('image/:id')
+    async getImage(
+        @Param('id') id: number
+    ) {
+        const image = await this.testService.getImage(id);
+        return new StreamableFile(Buffer.from(image, "base64"), { type: 'image/jpeg' })
+    }
+
   @Post()
-  createTest(@Body(ValidationPipe) newTest : NewTestDTO) : Promise<AffichageTestDTO>
+  createTest(@Body() newTest : NewTestDTO) : Promise<AffichageTestDTO>
   {
     return this.testService.createTest(newTest);
   }

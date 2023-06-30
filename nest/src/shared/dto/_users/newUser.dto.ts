@@ -21,4 +21,6 @@ export class NewUserDTO {
         minNumbers : 1
     })
     mdp : string
+
+    avatar : string
 }

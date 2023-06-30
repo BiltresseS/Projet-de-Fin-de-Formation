@@ -118,7 +118,7 @@ Modifié en cours de route :
 TODO :
     - système de "points de participations"
     - liste des abonnés visible uniquement après connexion
-    - mettre liens derrière menu shortcuts
+    - mettre liens derrière menu shortcuts + liste défilante horizontalement
     - liste des tests => filtre par utilisateur et par notes, changement d'affichage, nombres d'affichages et recherche
     - page de test => modifier, voter, supprimer
     - page profil => liste des tests

@@ -2,7 +2,7 @@
     <li *ngFor="let a of abonnes" [class.inactif]="a.deletedAt">
         <a [routerLink]="['../abonnes', a.id]">
             <h1>{{a.login}}</h1>
-            <img [src]="a.avatar | defaultImage">
+            <img [src]="a.avatar | defaultAvatar">
             <p>
                 {{a.rank}}
             </p>

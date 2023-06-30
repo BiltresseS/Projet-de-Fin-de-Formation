@@ -8,8 +8,8 @@ import { RanksEntity } from "src/shared/entities/rank.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
 import { Repository } from "typeorm"
 import { UserModified } from "src/shared/dto/_users/userModified.dto"
-import * as argon2 from 'argon2'
 import { NewUserDTO } from "src/shared/dto/_users/newUser.dto"
+import * as argon2 from 'argon2'
 
 @Injectable()
 export class UserService {
@@ -19,6 +19,8 @@ export class UserService {
     ) { }
 
     async getAll(includeDeleted: boolean): Promise<AffichageUserSmollDTO[]> {
+        const defaultAvatarBase64 = Buffer.from('/default.png').toString('base64');
+
         let filter = {
             relations: {
                 rank: true
@@ -33,7 +35,7 @@ export class UserService {
 
         let formattedUsers: AffichageUserSmollDTO[] = allUsers.map((user) => ({
             id: user.id
-            , avatar: user.avatar === 'img=' ? null : 'http://localhost:5000/api/users/image/' + user.id
+            , avatar: user.avatar === defaultAvatarBase64 ? null : 'http://localhost:5000/api/users/image/' + user.id
             , login: user.login
             , rank: user.rank.rank
             , deletedAt: user.deletedAt != null
@@ -43,6 +45,8 @@ export class UserService {
     }
 
     async getOne(userId: number, includeDeleted: boolean): Promise<AffichageUserDTO> {
+        const defaultAvatarBase64 = Buffer.from('/default.png').toString('base64');
+
         let filter = {
             where: { id: userId }
             , relations: {
@@ -58,7 +62,7 @@ export class UserService {
 
         let formattedUsers: AffichageUserDTO = {
             id: oneUser.id
-            , avatar: 'http://localhost:5000/api/users/image/' + oneUser.id
+            , avatar: oneUser.avatar === defaultAvatarBase64 ? null : 'http://localhost:5000/api/users/image/' + oneUser.id
             , login: oneUser.login
             , mail: oneUser.mail
             , bio: oneUser.bio
@@ -97,6 +101,8 @@ export class UserService {
     }
 
     async create(newUser: NewUserDTO): Promise<AffichageNewUserDTO> {
+        const defaultAvatarBase64 = Buffer.from('/default.png').toString('base64');
+
         const options = {
             type: argon2.argon2id,
             memoryCost: 2 ** 16, // Paramètres de coût de mémoire
@@ -111,9 +117,7 @@ export class UserService {
         })
 
         userEntityCreated.rank = await this.rankRepo.findOne({ where: { id: 4 } })
-        userEntityCreated.avatar = 'img'
-
-        console.log(userEntityCreated);
+        userEntityCreated.avatar = defaultAvatarBase64
 
         let resultSave = await this.usersRepo
             .save(userEntityCreated)
@@ -134,7 +138,6 @@ export class UserService {
             select: { rank: { rank: true, id: true } },
             relations: { rank: true }
         }).catch(_ => { throw new HttpException("Erreur lors du trouvage de l'utilisateur", HttpStatus.NOT_FOUND) })
-
         userExist.avatar = updateToUser.avatar
         userExist.login = updateToUser.login
         userExist.mail = updateToUser.mail
@@ -208,9 +211,4 @@ export class UserService {
 
         return 1
     }
-}
-
-function isAdminUser(rank: RanksEntity): boolean {
-    // Vérifiez si le rang de l'utilisateur est égal à 1 ou 2
-    return rank.id === 1 || rank.id === 2;
 }

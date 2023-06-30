@@ -6,6 +6,7 @@ import { LifetimeEntity } from "src/shared/entities/lifetime.entity"
 import { UsersEntity } from "src/shared/entities/user.entity"
 import { ConsolesEntity } from "src/shared/entities/console.entity"
 import { GenresEntity } from "src/shared/entities/genres.entity"
+import { UpVoteEntity } from "src/shared/entities/up-vote.entity"
 
 export class UpdatedWholeTest extends LifetimeEntity {
     @IsDefined()
@@ -28,7 +29,7 @@ export class UpdatedWholeTest extends LifetimeEntity {
 
     developpeur : DeveloppersEntity
     
-    distributer : DistributersEntity
+    distributeur : DistributersEntity
 
     @IsDefined()
     @IsString()
@@ -58,9 +59,9 @@ export class UpdatedWholeTest extends LifetimeEntity {
     @Max(20)
     note : number
 
-    author : UsersEntity
+    author : string
 
-    upVotes : UsersEntity[]
+    upVotes : UpVoteEntity[]
     
     gallery : GalleryEntity[]
 }
