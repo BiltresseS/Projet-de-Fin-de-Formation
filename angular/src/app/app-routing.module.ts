@@ -10,12 +10,14 @@ import { EnregistrementComponent } from './pages/connexion/enregistrement/enregi
 import { ProfileEditComponent } from './pages/profil/profil-edit/profil-edit.component';
 import { AbonnesComponent } from './pages/liste-abonnes/abonnes/abonnes.component';
 import { CreateTestComponent } from './pages/liste-tests/create-test/create-test.component';
+import { ModifyTestComponent } from './pages/liste-tests/modify-test/modify-test.component';
 
 const routes: Routes = [
   {path : '', redirectTo : 'accueil', pathMatch : 'full'}
   , {path : 'accueil', component : AccueilComponent}
   , {path : 'liste-tests', component : ListeTestsComponent}
   , {path : 'test/:id', component : TestComponent}
+  , {path : 'modify-test/:testId', component : ModifyTestComponent}
   , {path : 'create-test', component : CreateTestComponent}
   , {path : 'liste-abonnes', component : ListeAbonnesComponent}
   , {path : 'abonnes/:id', component : AbonnesComponent}

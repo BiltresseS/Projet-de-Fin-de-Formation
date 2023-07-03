@@ -1,7 +1,7 @@
-<form id="mainForm" (ngSubmit)="submitForm()" *ngIf="newTest" enctype="multipart/form-data">
+<form id="mainForm" (ngSubmit)="submitForm()" *ngIf="test" enctype="multipart/form-data">
     <div>
         <label for="title">Titre</label>
-        <input type="text" id="title" name="title" [(ngModel)]="newTest.title" required>
+        <input type="text" id="title" name="title" [(ngModel)]="test.title" required>
     </div>
     <div>
         <label for="cover">Cover</label>
@@ -12,9 +12,9 @@
             <input type="file" (change)="onCoverSelected($event)" accept="image/*">
         </div>
     </div>
-    <div>
+    <div *ngIf="selectedConsole">
         <label for="consoles">Consoles</label>
-        <select [(ngModel)]="selectedConsole" id="consoles" name="consoles" [(ngModel)]="newTest.consoles" multiple>
+        <select [(ngModel)]="selectedConsole" id="consoles" name="consoles" multiple>
             <option *ngFor="let c of consoles" [value]="c">
                 {{ c.name }}
             </option>
@@ -22,7 +22,7 @@
     </div>
     <div>
         <label for="genres">Genres</label>
-        <select [(ngModel)]="selectedGenre" id="genres" name="genres" [(ngModel)]="newTest.genres" multiple>
+        <select [(ngModel)]="selectedGenre" id="genres" name="genres" [(ngModel)]="test.genres" multiple>
             <option *ngFor="let g of genres" [value]="g">
                 {{ g.name }}
             </option>
@@ -68,23 +68,23 @@
     </div>
     <div>
         <label for="jap">Date de sortie Japonnaise</label>
-        <input type="date" id="jap" name="jap" [(ngModel)]="newTest.dateSortieJAP" required><br>
+        <input type="date" id="jap" name="jap" [(ngModel)]="test.dateSortieJAP" required><br>
         <label for="us">Date de sortie Américaine</label>
-        <input type="date" id="us" name="us" [(ngModel)]="newTest.dateSortieUS" required><br>
+        <input type="date" id="us" name="us" [(ngModel)]="test.dateSortieUS" required><br>
         <label for="pal">Date de sortie Européenne</label>
-        <input type="date" id="pal" name="pal" [(ngModel)]="newTest.dateSortiePAL" required>
+        <input type="date" id="pal" name="pal" [(ngModel)]="test.dateSortiePAL" required>
     </div>
     <div>
         <label for="resume">Petit résumé</label>
-        <textarea id="resume" name="resume" [(ngModel)]="newTest.resume" required></textarea>
+        <textarea id="resume" name="resume" [(ngModel)]="test.resume" required></textarea>
     </div>
     <div>
         <label for="test">Test</label>
-        <textarea id="test" name="test" [(ngModel)]="newTest.test" required></textarea>
+        <textarea id="test" name="test" [(ngModel)]="test.test" required></textarea>
     </div>
     <div>
         <label for="note">Note</label>
-        <input type="number" id="note" name="note" [(ngModel)]="newTest.note" required min="0" max="20">
+        <input type="number" id="note" name="note" [(ngModel)]="test.note" required min="0" max="20">
     </div>
     <button type="button" (click)="openModal('ajoutImageModal')">Ajouter une image</button>
     <ngx-smart-modal #developperModal identifier="ajoutImageModal">

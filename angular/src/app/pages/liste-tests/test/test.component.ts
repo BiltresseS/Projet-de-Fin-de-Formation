@@ -1,9 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DevelopperInterface, DistributerInterface, TestInterface } from "src/app/interfaces/tests-interface";
 import { UserInterface } from "src/app/interfaces/users-interface";
-import { DevelopperService } from "src/app/services/developper.service";
-import { DistributerService } from "src/app/services/distributer.service";
+import { AuthService } from "src/app/services/auth.service";
 import { TestService } from "src/app/services/test.service";
 import { UserService } from "src/app/services/users.service";
 
@@ -17,15 +16,16 @@ export class TestComponent implements OnInit {
 
   test!: TestInterface
   author!: UserInterface
-  developpeur! : DevelopperInterface
-  distributeur! : DistributerInterface
+  developpeur!: DevelopperInterface
+  distributeur!: DistributerInterface
+
+  isAllowed: boolean = false
 
   constructor(
     private _service: TestService
     , private _user: UserService
-    , private _developpeur : DevelopperService
-    , private _distributeur : DistributerService
     , private _route: ActivatedRoute
+    , private _router: Router
   ) { }
 
   ngOnInit() {
@@ -40,41 +40,46 @@ export class TestComponent implements OnInit {
       this._service.getFullTest(url).subscribe({
         next: (data: TestInterface) => {
           this.test = data;
-          
+
           this._user.getFullUser(this.test.author).subscribe(
             (author: UserInterface) => {
               this.author = author;
+              this.checkAuthorization();
             },
             (error) => {
               // Gérer les erreurs de requête
               console.log("erreur : " + error);
-
             }
           );
-
-          // this._developpeur.getDevelopper("http://localhost:5000/api/developpers/" + this.test.developpeur).subscribe(
-          //   (developpeur: DevelopperInterface) => {
-          //     this.developpeur = developpeur;
-          //     console.log(developpeur);
-          //   },
-          //   (error) => {
-          //     // Gérer les erreurs de requête
-          //     console.log("erreur : " + error);
-          //   }
-          // );
-
-          // this._distributeur.getDistributeur("http://localhost:5000/api/developpers/" + this.test.distributeur).subscribe(
-          //   (distributeur: DistributerInterface) => {
-          //     this.distributeur = distributeur;
-          //   },
-          //   (error) => {
-          //     // Gérer les erreurs de requête
-          //     console.log("erreur : " + error);
-          //   }
-          // );
-          
         }
       });
     });
+  }
+
+  checkAuthorization() {
+    const userId = this.getUserIdFromToken(); // Obtiens l'ID de l'utilisateur à partir du token
+    const userRank = this.author.rank.id; // Obtient le rang de l'utilisateur
+
+    this.isAllowed = userId === this.author.id || userRank === 1 || userRank === 2;
+  }
+
+  getUserIdFromToken(): number {
+    const token = localStorage.getItem('token');
+    const tokenPayload = JSON.parse(this.decodeToken(token ?? ''));
+    const userId = tokenPayload.sub;
+
+    return userId;
+  }
+
+  decodeToken(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const decodedToken = window.atob(base64);
+
+    return decodedToken;
+  }
+
+  modifyTest(testId: number) {
+    this._router.navigate(['/modify-test/', testId]);
   }
 }

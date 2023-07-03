@@ -20,6 +20,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { CreateTestComponent } from './pages/liste-tests/create-test/create-test.component';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 import { DefaultAvatarPipe } from './pipes/default-avatar.pipe';
+import { ModifyTestComponent } from './pages/liste-tests/modify-test/modify-test.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { DefaultAvatarPipe } from './pipes/default-avatar.pipe';
     , EnregistrementComponent
     , ProfileEditComponent
     , CreateTestComponent
-    , DefaultAvatarPipe
+    , DefaultAvatarPipe, ModifyTestComponent
   ],
   imports: [
     BrowserModule

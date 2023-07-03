@@ -1,30 +1,31 @@
-import { Component, Injectable, OnInit } from '@angular/core';
-import { ConsoleInterface, DevelopperInterface, DistributerInterface, GalleryInterface, GenreInterface, NewDevelopperInterface, NewDistributerInterface, NewTestInterface, SubmitNewTestInterface } from 'src/app/interfaces/tests-interface';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSmartModalService } from 'ngx-smart-modal';
+import { ConsoleInterface, DevelopperInterface, DistributerInterface, GalleryInterface, GenreInterface, NewDevelopperInterface, NewDistributerInterface, SubmitNewTestInterface, TestInterface } from 'src/app/interfaces/tests-interface';
+import { UserInterface } from 'src/app/interfaces/users-interface';
 import { ConsoleService } from 'src/app/services/console.service';
 import { DevelopperService } from 'src/app/services/developper.service';
 import { DistributerService } from 'src/app/services/distributer.service';
 import { GenreService } from 'src/app/services/genres.service';
-import { NgxSmartModalService } from 'ngx-smart-modal';
-import { UserInterface } from 'src/app/interfaces/users-interface';
 import { TestService } from 'src/app/services/test.service';
-import { Router } from '@angular/router';
 
 @Component({
-  templateUrl: './create-test.component.html',
-  styleUrls: ['./create-test.component.scss']
+  selector: 'app-modify-test',
+  templateUrl: './modify-test.component.html',
+  styleUrls: ['./modify-test.component.scss']
 })
-
-@Injectable()
-export class CreateTestComponent implements OnInit {
+export class ModifyTestComponent implements OnInit {
   userUrl!: string;
-  newTest!: NewTestInterface;
+  test!: TestInterface;
+  testId!: number;
   authorProfile!: UserInterface;
   imageChangedEvent: any = '';
   cover: string | ArrayBuffer | null = null;
   consoles!: ConsoleInterface[];
-  selectedConsole: number | null;
+  selectedConsole!: ConsoleInterface[];
   genres!: GenreInterface[];
-  selectedGenre: number | null;
+  selectedGenre!: GenreInterface[];
   developpers: string = ""
   distributers: string = ""
   listDeveloppers!: DevelopperInterface[]
@@ -43,40 +44,40 @@ export class CreateTestComponent implements OnInit {
     , private _developpers: DevelopperService
     , private _distributers: DistributerService
     , private _service: TestService
+    , private _route: ActivatedRoute
     , private _router: Router
+    , private _http: HttpClient
     , private ngxSmartModalService: NgxSmartModalService
   ) {
-    this.selectedConsole = null
-    this.selectedGenre = null
+    // this.selectedConsole = null
+    // this.selectedGenre = null
     this.newDevelopper = { name: '' }
     this.newDistributer = { name: '' }
   }
 
   ngOnInit() {
+    this._route.params.subscribe(params => {
+      this.testId = params['testId'];
+      this.getTestData();
+  })
+
     const userId = this.getUserIdFromToken();
     const userUrl = `http://localhost:5000/api/users/${userId}`;
-
-    this.newTest = {
-      title: ''
-      , cover: ""
-      , consoles: []
-      , genres: []
-      , developpeur: 0
-      , distributeur: 0
-      , dateSortieJAP: ''
-      , dateSortieUS: ''
-      , dateSortiePAL: ''
-      , resume: ''
-      , test: ''
-      , note: 10
-      , author: userUrl
-      , gallery: [],
-    }
 
     this.getConsoles()
     this.getGenres()
     this.getDeveloppers()
     this.getDistributers()
+  }
+
+  getTestData() {
+    const apiUrl = `http://localhost:5000/api/test/${this.testId}`;
+    this._http.get<TestInterface>(apiUrl).subscribe((data) => {
+      this.test = data;
+      this.selectedConsole = this.test.consoles;
+      console.log(this.selectedConsole);
+      
+    });
   }
 
   getConsoles() {
@@ -143,7 +144,7 @@ export class CreateTestComponent implements OnInit {
 
     reader.onload = () => {
       this.cover = reader.result;
-      this.newTest.cover = (reader.result as string).split(',')[1]
+      this.test.cover = (reader.result as string).split(',')[1]
     };
   }
 
@@ -179,7 +180,7 @@ export class CreateTestComponent implements OnInit {
         this.closeModal('developperModal');
 
         // Définit le développeur nouvellement ajouté comme sélectionné
-        this.newTest.developpeur = newDevelopperId;
+        // this.test.developpeur = newDevelopperId;
       }
     });
   }
@@ -200,7 +201,7 @@ export class CreateTestComponent implements OnInit {
         this.closeModal('distributerModal');
 
         // Définit le distributeur nouvellement ajouté comme sélectionné
-        this.newTest.distributeur = newDistributerId;
+        // this.test.distributeur = newDistributerId;
       }
     });
   }
@@ -249,19 +250,19 @@ export class CreateTestComponent implements OnInit {
     const distributeur = this.listDistributers.find(dis => dis.id == parseInt(this.distributers))
 
     const test: SubmitNewTestInterface = {
-      title: this.newTest.title
-      , cover: this.newTest.cover
-      , consoles: this.newTest.consoles
-      , genres: this.newTest.genres
+      title: this.test.title
+      , cover: this.test.cover
+      , consoles: this.test.consoles
+      , genres: this.test.genres
       , developpeur: developpeur
       , distributeur: distributeur
-      , dateSortieJAP: this.newTest.dateSortieJAP
-      , dateSortieUS: this.newTest.dateSortieUS
-      , dateSortiePAL: this.newTest.dateSortiePAL
-      , resume: this.newTest.resume
-      , test: this.newTest.test
-      , note: this.newTest.note
-      , author: this.newTest.author
+      , dateSortieJAP: this.test.dateSortieJAP
+      , dateSortieUS: this.test.dateSortieUS
+      , dateSortiePAL: this.test.dateSortiePAL
+      , resume: this.test.resume
+      , test: this.test.test
+      , note: this.test.note
+      , author: this.test.author
       , gallery: this.gallery.map((item) => {
         return {
           file: item.file.split(',')[1],
