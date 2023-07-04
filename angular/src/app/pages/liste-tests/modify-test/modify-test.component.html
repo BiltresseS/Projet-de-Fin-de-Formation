@@ -12,26 +12,26 @@
             <input type="file" (change)="onCoverSelected($event)" accept="image/*">
         </div>
     </div>
-    <div *ngIf="selectedConsole">
+    <div>
         <label for="consoles">Consoles</label>
         <select [(ngModel)]="selectedConsole" id="consoles" name="consoles" multiple>
-            <option *ngFor="let c of consoles" [value]="c">
+            <option *ngFor="let c of consoles; let i = index" [value]="c.id" [selected]="selectedConsole[i]">
                 {{ c.name }}
             </option>
         </select>
     </div>
     <div>
         <label for="genres">Genres</label>
-        <select [(ngModel)]="selectedGenre" id="genres" name="genres" [(ngModel)]="test.genres" multiple>
-            <option *ngFor="let g of genres" [value]="g">
+        <select [(ngModel)]="selectedGenre" id="genres" name="genres" multiple>
+            <option *ngFor="let g of genres; let i = index" [value]="g.id" [selected]="selectedGenre[i]">
                 {{ g.name }}
             </option>
         </select>
     </div>
     <div>
         <label for="developper">Développeur</label>
-        <select id="developper" name="developper" [(ngModel)]="developpers" required>
-            <option *ngFor="let de of listDeveloppers" [value]="de.id">
+        <select [(ngModel)]="developpeur" id="developper" name="developper" required>
+            <option *ngFor="let de of listDeveloppers" [value]="de.id" [selected]="developpeur">
                 {{ de.name }}
             </option>
         </select>
@@ -49,8 +49,8 @@
     </div>
     <div>
         <label for="distributer">Distributeur</label>
-        <select id="distributer" name="distributerModal" [(ngModel)]="distributers" required>
-            <option *ngFor="let di of listDistributers" [value]="di.id">
+        <select [(ngModel)]="distributeur" id="distributer" name="distributerModal" required>
+            <option *ngFor="let di of listDistributers" [value]="di.id" [selected]="distributeur">
                 {{ di.name }}
             </option>
         </select>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { NewTestInterface, SubmitNewTestInterface, SubmitReturnNewTestInterface, TestInterface, TestPreviewInterface } from '../interfaces/tests-interface';
+import { ModifyTestInterface, NewTestInterface, SubmitNewTestInterface, SubmitReturnNewTestInterface, TestInterface, TestPreviewInterface } from '../interfaces/tests-interface';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -31,5 +31,10 @@ export class TestService {
         return testWithId;
       })
     );
+  }
+
+  updateTest(testId: number, test: ModifyTestInterface): Observable<TestInterface> {
+    const url = `${this.url}/${testId}`;
+    return this._client.put<TestInterface>(url, test);
   }
 }

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { base64ToFile } from 'ngx-image-cropper';
 import { NgxSmartModalService } from 'ngx-smart-modal';
-import { ConsoleInterface, DevelopperInterface, DistributerInterface, GalleryInterface, GenreInterface, NewDevelopperInterface, NewDistributerInterface, SubmitNewTestInterface, TestInterface } from 'src/app/interfaces/tests-interface';
+import { ConsoleInterface, DevelopperInterface, DistributerInterface, GalleryInterface, GenreInterface, ModifyTestInterface, NewDevelopperInterface, NewDistributerInterface, SubmitNewTestInterface, TestInterface } from 'src/app/interfaces/tests-interface';
 import { UserInterface } from 'src/app/interfaces/users-interface';
 import { ConsoleService } from 'src/app/services/console.service';
 import { DevelopperService } from 'src/app/services/developper.service';
@@ -17,17 +18,17 @@ import { TestService } from 'src/app/services/test.service';
 })
 export class ModifyTestComponent implements OnInit {
   userUrl!: string;
-  test!: TestInterface;
+  test!: ModifyTestInterface;
   testId!: number;
   authorProfile!: UserInterface;
   imageChangedEvent: any = '';
   cover: string | ArrayBuffer | null = null;
   consoles!: ConsoleInterface[];
-  selectedConsole!: ConsoleInterface[];
+  selectedConsole: number[] = [];
   genres!: GenreInterface[];
-  selectedGenre!: GenreInterface[];
-  developpers: string = ""
-  distributers: string = ""
+  selectedGenre!: number[];
+  developpeur!: number
+  distributeur!: number
   listDeveloppers!: DevelopperInterface[]
   listDistributers!: DistributerInterface[]
   showNewDevelopper: boolean = false;
@@ -49,13 +50,16 @@ export class ModifyTestComponent implements OnInit {
     , private _http: HttpClient
     , private ngxSmartModalService: NgxSmartModalService
   ) {
-    // this.selectedConsole = null
-    // this.selectedGenre = null
     this.newDevelopper = { name: '' }
     this.newDistributer = { name: '' }
   }
 
   ngOnInit() {
+    this.getConsoles()
+    this.getGenres()
+    this.getDeveloppers()
+    this.getDistributers()
+
     this._route.params.subscribe(params => {
       this.testId = params['testId'];
       this.getTestData();
@@ -64,19 +68,45 @@ export class ModifyTestComponent implements OnInit {
     const userId = this.getUserIdFromToken();
     const userUrl = `http://localhost:5000/api/users/${userId}`;
 
-    this.getConsoles()
-    this.getGenres()
-    this.getDeveloppers()
-    this.getDistributers()
   }
 
   getTestData() {
     const apiUrl = `http://localhost:5000/api/test/${this.testId}`;
     this._http.get<TestInterface>(apiUrl).subscribe((data) => {
       this.test = data;
-      this.selectedConsole = this.test.consoles;
-      console.log(this.selectedConsole);
+      this.getImageBase64(data.cover).then(
+        (base64Content: string) => {
+          // Remplace l'URL de l'image par son contenu en base64
+          this.cover = base64Content;
+          this.test.cover = base64Content.split(',')[1];
+        },
+        (error: any) => {
+          console.error('Une erreur s\'est produite lors de la récupération de l\'image en base64 :', error);
+        }
+      );
+      this.selectedConsole = this.test.consoles.map(console => console.id);
+      this.selectedGenre = this.test.genres.map(genre => genre.id);
+      this.developpeur = data.developpeur.id;
+      this.distributeur = data.distributeur.id;
+      this.gallery = data.gallery;
+      const base64Promises = this.gallery.map((item) => {
+        return this.getImageBase64(item.file)
+          .then((base64Content) => {
+            item.file = base64Content;
+          })
+          .catch((error) => {
+            console.error('Une erreur s\'est produite lors de la récupération de l\'image en base64 :', error);
+          });
+      });
       
+      // Attend que toutes les promesses de récupération d'image soient résolues
+      Promise.all(base64Promises)
+        .then(() => {
+          console.log('Récupération des images en base64 terminée.');
+        })
+        .catch((error) => {
+          console.error('Une erreur s\'est produite lors de la récupération des images en base64 :', error);
+        });
     });
   }
 
@@ -124,6 +154,31 @@ export class ModifyTestComponent implements OnInit {
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const decodedToken = window.atob(base64);
     return decodedToken;
+  }
+
+  getImageBase64(imageURL: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          const dataURL = canvas.toDataURL('image/png');
+          resolve(dataURL);
+        } else {
+          reject('Impossible de récupérer le contexte du canevas.');
+        }
+      };
+      img.onerror = function (error) {
+        reject(error);
+      };
+      img.src = imageURL;
+    });
   }
 
   getBase64(file: any) {
@@ -245,17 +300,14 @@ export class ModifyTestComponent implements OnInit {
     }
   }
 
-  submitForm(): void {
-    const developpeur = this.listDeveloppers.find(dev => dev.id == parseInt(this.developpers))
-    const distributeur = this.listDistributers.find(dis => dis.id == parseInt(this.distributers))
-
-    const test: SubmitNewTestInterface = {
+  submitForm(): void {    
+    const test: ModifyTestInterface = {
       title: this.test.title
       , cover: this.test.cover
       , consoles: this.test.consoles
       , genres: this.test.genres
-      , developpeur: developpeur
-      , distributeur: distributeur
+      , developpeur: this.test.developpeur
+      , distributeur: this.test.distributeur
       , dateSortieJAP: this.test.dateSortieJAP
       , dateSortieUS: this.test.dateSortieUS
       , dateSortiePAL: this.test.dateSortiePAL
@@ -269,17 +321,31 @@ export class ModifyTestComponent implements OnInit {
           commentaire: item.commentaire,
           uploader: item.uploader
         };
-      }),
+      })
+      , upVotes: this.test.upVotes
     };
 
-    this._service.submitTest(test).subscribe(
-      (response) => {
-        const testId = response.id
-        this._router.navigate([`/test/${testId}`]);
-      },
-      (error) => {
-        console.error('Une erreur s\'est produite lors de la soumission du test', error);
-      }
-    );
+    if (this.testId) {
+      // Modification d'un test existant
+      this._service.updateTest(this.testId, test).subscribe(
+        (updatedTest) => {
+          this._router.navigate([`/test/${this.testId}`]);
+        },
+        (error) => {
+          console.error('Une erreur s\'est produite lors de la modification du test', error);
+        }
+      );
+    } else {
+      // Création d'un nouveau test
+      this._service.submitTest(test).subscribe(
+        (response) => {
+          const testId = response.id
+          this._router.navigate([`/test/${testId}`]);
+        },
+        (error) => {
+          console.error('Une erreur s\'est produite lors de la soumission du test', error);
+        }
+      );
+    }
   }
 }

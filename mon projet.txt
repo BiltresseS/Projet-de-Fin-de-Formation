@@ -116,10 +116,11 @@ Modifié en cours de route :
     - gestion du profil ou de la connexion selon le statut de connexion de l'utilisateur
 
 TODO :
+    - modifier test => quand réupload de la gallery, supprimer les anciennes entrées + vérifier pourquoi le 'uploader' ne passe pas
     - système de "points de participations"
     - liste des abonnés visible uniquement après connexion
     - mettre liens derrière menu shortcuts + liste défilante horizontalement
     - liste des tests => filtre par utilisateur et par notes, changement d'affichage, nombres d'affichages et recherche
-    - page de test => modifier, voter, supprimer
+    - page de test => voter, supprimer
     - page profil => liste des tests
     - liste des abonnés => date d'inscription

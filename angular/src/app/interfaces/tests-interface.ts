@@ -68,6 +68,24 @@ export interface SubmitReturnNewTestInterface {
     gallery : GalleryInterface[]
 }
 
+export interface ModifyTestInterface {
+    title : string
+    cover : string
+    consoles : ConsoleInterface[]
+    genres : GenreInterface[]
+    developpeur : DevelopperInterface
+    distributeur : DistributerInterface
+    dateSortieJAP : string
+    dateSortieUS : string
+    dateSortiePAL : string
+    resume : string
+    test : string
+    note : number
+    author : string
+    upVotes : UpVotesInterface[]
+    gallery : GalleryInterface[]
+}
+
 export interface TestPreviewInterface {
     id : number
     title : string
